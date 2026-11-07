@@ -117,7 +117,12 @@
 <i class="fa-solid fa-cloud-arrow-up"></i>
 <span>Office Live / PC App</span>
 </button>
-<button class="bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-bold px-3 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5" id="btnLockPortalNow" title="Portal ko ID/Password se Lock karein" type="button">
+<button id="btnOpenThemeModal" type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-800/90 hover:bg-slate-700 text-amber-300 border border-slate-700 shadow-xs">
+          <i class="fa-solid fa-palette text-amber-400"></i>
+          <span class="hidden sm:inline">Theme:</span>
+          <span id="currentThemeLabel" class="font-bold">🌌 Cyber Dark</span>
+        </button>
+        <button class="bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-bold px-3 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5" id="btnLockPortalNow" title="Portal ko ID/Password se Lock karein" type="button">
 <i class="fa-solid fa-lock"></i>
 <span id="lblHeaderLockBtn">Lock (ID/Pass)</span>
 </button>
@@ -8239,7 +8244,70 @@
 </div>
 </div>
 <!-- ==================== MODAL 14: CLOUD LIVE SYNC & ID/PASSWORD LOGIN SETUP ==================== -->
-<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4" id="modalLiveSetup">
+
+  <!-- ==================== MODAL 16: THEME & DESIGN PICKER ==================== -->
+  <div id="modalThemePicker" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-5 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+            <i class="fa-solid fa-palette"></i>
+          </span>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">🎨 Software Look &amp; Design Theme Chunein</h3>
+            <p class="text-xs text-slate-500">Apne pasandeeda look par click karein, turant poora portal us theme me badal jayega!</p>
+          </div>
+        </div>
+        <button type="button" id="btnCloseThemePicker" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+        <!-- Theme 1 -->
+        <div class="theme-option-card border-2 border-indigo-500 rounded-xl p-3.5 cursor-pointer hover:shadow-md transition bg-slate-900 text-white flex flex-col justify-between" data-theme-id="dark">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-sm text-indigo-300">🌌 Cyber Dark Fintech</span>
+            <span class="text-[10px] bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 px-2 py-0.5 rounded-full font-bold">Default</span>
+          </div>
+          <p class="text-xs text-slate-300 mb-3">Deep obsidian slate background, glowing neon indigo &amp; emerald borders. Night-friendly aur high-tech kiosk look.</p>
+          <button type="button" class="w-full py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 font-bold text-xs text-white">Apply Cyber Dark</button>
+        </div>
+
+        <!-- Theme 2 -->
+        <div class="theme-option-card border border-slate-300 hover:border-blue-600 rounded-xl p-3.5 cursor-pointer hover:shadow-md transition bg-gradient-to-br from-blue-50 to-white text-slate-900 flex flex-col justify-between" data-theme-id="royal">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-sm text-blue-900">🏛️ Royal Banking Blue</span>
+            <span class="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full">SBI / HDFC Style</span>
+          </div>
+          <p class="text-xs text-slate-600 mb-3">Deep royal blue headers with crisp clean white cards. Formal, corporate aur official banking command center look.</p>
+          <button type="button" class="w-full py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 font-bold text-xs text-white">Apply Royal Blue</button>
+        </div>
+
+        <!-- Theme 3 -->
+        <div class="theme-option-card border border-slate-300 hover:border-emerald-600 rounded-xl p-3.5 cursor-pointer hover:shadow-md transition bg-gradient-to-br from-emerald-50 to-white text-slate-900 flex flex-col justify-between" data-theme-id="emerald">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-sm text-emerald-900">🌿 Emerald Wealth Pro</span>
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Tally Prime / Fintech</span>
+          </div>
+          <p class="text-xs text-slate-600 mb-3">Rich forest green headers with mint-tinted accounting cards. Munafa aur baki hisab ke liye visual clarity.</p>
+          <button type="button" class="w-full py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-bold text-xs text-white">Apply Emerald Pro</button>
+        </div>
+
+        <!-- Theme 4 -->
+        <div class="theme-option-card border border-slate-300 hover:border-slate-800 rounded-xl p-3.5 cursor-pointer hover:shadow-md transition bg-white text-slate-900 flex flex-col justify-between" data-theme-id="light">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-sm text-slate-900">☀️ Clean Daylight Light</span>
+            <span class="text-[10px] bg-slate-100 text-slate-800 font-bold px-2 py-0.5 rounded-full">Shop Daylight Mode</span>
+          </div>
+          <p class="text-xs text-slate-600 mb-3">Ultra-clean pure white theme, high contrast charcoal text. Dukan ki tez dhoop aur mobile screen ke liye 100% visible.</p>
+          <button type="button" class="w-full py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 font-bold text-xs text-white">Apply Clean Light</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4" id="modalLiveSetup">
 <div class="bg-white rounded-2xl max-w-3xl w-full p-5 shadow-2xl border border-slate-200 max-h-[92vh] overflow-y-auto custom-scroll space-y-4">
 <div class="flex items-center justify-between pb-3 border-b border-slate-200">
 <div class="flex items-center gap-2.5">
@@ -8713,6 +8781,16 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
     let appState = loadState();
     let lendenChartInstance = null;
 
+        function hasRealData(state) {
+      if (!state) return false;
+      const hasTx = Array.isArray(state.transactions) && state.transactions.length > 0;
+      const hasBalance = Array.isArray(state.accounts) && state.accounts.some(a => (Number(a.balance) || 0) > 0);
+      const hasTasks = Array.isArray(state.tasks) && state.tasks.length > 0;
+      const hasInquiries = Array.isArray(state.inquiries) && state.inquiries.length > 0;
+      const hasVendorDue = Array.isArray(state.vendors) && state.vendors.some(v => (Number(v.currentDue) || 0) > 0);
+      return Boolean(hasTx || hasBalance || hasTasks || hasInquiries || hasVendorDue);
+    }
+
     function hasMeaningfulData(stateObj) {
       // Any valid state object with an accounts array is valid (even when user intentionally cleared all balances to 0!)
       return Boolean(stateObj && Array.isArray(stateObj.accounts) && stateObj.accounts.length > 0);
@@ -8778,6 +8856,34 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
           const parsed = JSON.parse(rawPrimary);
           if (hasMeaningfulData(parsed)) {
             return normalizeLoadedState(parsed);
+          }
+        }
+      } catch (e) {}
+
+      // Auto-recover from any previous version storage keys (v1 to v25)
+      for (let v = 25; v >= 1; v--) {
+        try {
+          const oldRaw = localStorage.getItem('edigital_solutions_v' + v + '_master_db');
+          if (oldRaw) {
+            const oldParsed = JSON.parse(oldRaw);
+            if (hasRealData(oldParsed)) {
+              console.log('Recovered data from v' + v);
+              const migrated = normalizeLoadedState(oldParsed);
+              try { localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated)); } catch (err) {}
+              return migrated;
+            }
+          }
+        } catch (e) {}
+      }
+
+      // Check window.name backup
+      try {
+        if (window.name && window.name.startsWith('__OFFICE_HISAB_STATE__')) {
+          const winParsed = JSON.parse(window.name.replace('__OFFICE_HISAB_STATE__', ''));
+          if (hasRealData(winParsed)) {
+            const norm = normalizeLoadedState(winParsed);
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(norm)); } catch (err) {}
+            return norm;
           }
         }
       } catch (e) {}
@@ -8886,20 +8992,28 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
           const text = await res.text();
           if (text && text.trim().startsWith('{')) {
             const parsed = JSON.parse(text);
-            if (parsed && Array.isArray(parsed.accounts)) {
+            const cloudHasReal = hasRealData(parsed);
+            const localHasReal = hasRealData(appState);
+
+            if (cloudHasReal) {
               const keepUrl = appState.cloudSyncUrl;
               const keepUser = appState.authUserId;
               const keepPass = appState.authPassword;
+              const keepTheme = appState.activeTheme;
               appState = normalizeLoadedState(parsed);
               appState.cloudSyncUrl = keepUrl;
               if (keepUser) appState.authUserId = keepUser;
               if (keepPass) appState.authPassword = keepPass;
+              if (keepTheme) appState.activeTheme = keepTheme;
               localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+              if (typeof applyTheme === 'function') applyTheme(appState.activeTheme || 'dark');
               renderAll();
               if (!silent) showToast('✅ Cloud Server se aapka Latest Live Data load ho gaya!');
               return true;
-            } else if (parsed && Object.keys(parsed).length === 0) {
+            } else if (!cloudHasReal && localHasReal) {
+              console.log('Local has active data, preserving local and auto-uploading to cloud...');
               await pushStateToCloud(true);
+              if (!silent) showToast('☁️ Aapka Local Hisab Cloud Server par upload ho gaya!');
               return true;
             }
           }
@@ -11427,10 +11541,59 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       modal.classList.add('flex');
     }
 
+    
+    function applyTheme(themeName) {
+      if (!themeName) themeName = 'dark';
+      appState.activeTheme = themeName;
+      document.body.classList.remove('theme-dark', 'theme-royal', 'theme-emerald', 'theme-light');
+      document.body.classList.add('theme-' + themeName);
+      const labels = {
+        dark: '🌌 Cyber Dark',
+        royal: '🏛️ Royal Blue',
+        emerald: '🌿 Emerald Pro',
+        light: '☀️ Clean Light'
+      };
+      const lbl = document.getElementById('currentThemeLabel');
+      if (lbl) lbl.textContent = labels[themeName] || '🌌 Cyber Dark';
+      saveState();
+    }
+
     function switchTab(tabId) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
       const target = document.getElementById('tab-' + tabId);
       if (target) target.classList.remove('hidden');
+
+      
+      // Theme Picker Listeners
+      const btnOpenTheme = document.getElementById('btnOpenThemeModal');
+      const modalTheme = document.getElementById('modalThemePicker');
+      const btnCloseTheme = document.getElementById('btnCloseThemePicker');
+
+      if (btnOpenTheme && modalTheme) {
+        btnOpenTheme.addEventListener('click', () => {
+          modalTheme.classList.remove('hidden');
+          modalTheme.classList.add('flex');
+        });
+      }
+      if (btnCloseTheme && modalTheme) {
+        btnCloseTheme.addEventListener('click', () => {
+          modalTheme.classList.add('hidden');
+          modalTheme.classList.remove('flex');
+        });
+      }
+      document.querySelectorAll('.theme-option-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const tId = card.getAttribute('data-theme-id');
+          applyTheme(tId);
+          showToast(`🎨 Naya Design Theme Lag Gaya: ${card.querySelector('span.font-bold').textContent}`);
+          if (modalTheme) {
+            modalTheme.classList.add('hidden');
+            modalTheme.classList.remove('flex');
+          }
+        });
+      });
+      // Initial theme apply
+      applyTheme(appState.activeTheme || 'dark');
 
       document.querySelectorAll('.nav-tab-btn').forEach(btn => {
         const isCur = btn.getAttribute('data-tab') === tabId;
@@ -11478,6 +11641,38 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      
+      // Theme Picker Listeners
+      const btnOpenTheme = document.getElementById('btnOpenThemeModal');
+      const modalTheme = document.getElementById('modalThemePicker');
+      const btnCloseTheme = document.getElementById('btnCloseThemePicker');
+
+      if (btnOpenTheme && modalTheme) {
+        btnOpenTheme.addEventListener('click', () => {
+          modalTheme.classList.remove('hidden');
+          modalTheme.classList.add('flex');
+        });
+      }
+      if (btnCloseTheme && modalTheme) {
+        btnCloseTheme.addEventListener('click', () => {
+          modalTheme.classList.add('hidden');
+          modalTheme.classList.remove('flex');
+        });
+      }
+      document.querySelectorAll('.theme-option-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const tId = card.getAttribute('data-theme-id');
+          applyTheme(tId);
+          showToast(`🎨 Naya Design Theme Lag Gaya: ${card.querySelector('span.font-bold').textContent}`);
+          if (modalTheme) {
+            modalTheme.classList.add('hidden');
+            modalTheme.classList.remove('flex');
+          }
+        });
+      });
+      // Initial theme apply
+      applyTheme(appState.activeTheme || 'dark');
+
       document.querySelectorAll('.nav-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
       });
