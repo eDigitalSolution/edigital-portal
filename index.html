@@ -133,7 +133,7 @@
 </div>
     <!-- Navigation Tabs (Modern Flex-Wrap: All 8 Tabs Always Visible Without Side Scrolling!) -->
     <div class="bg-slate-950/85 border-t border-slate-800/90 shadow-md">
-      <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center gap-2">
+      <div id="mainNavBarContainer" class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center gap-2">
         <button type="button" data-tab="dashboard" class="nav-tab-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-indigo-600 text-white shadow-md ring-2 ring-indigo-400/30">
           <i class="fa-solid fa-chart-pie text-indigo-200"></i>
           <span>Dashboard</span>
@@ -249,7 +249,7 @@
 <!-- ==================== TAB 1: DASHBOARD ==================== -->
 <section class="tab-panel space-y-6" id="tab-dashboard">
 <!-- Executive Banking Command Hero Banner -->
-<div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-4 sm:p-5 shadow-lg border border-indigo-500/30 flex flex-wrap items-center justify-between gap-4">
+<div id="heroCommandCenter" class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-4 sm:p-5 shadow-lg border border-indigo-500/30 flex flex-wrap items-center justify-between gap-4">
 <div class="space-y-1">
 <div class="flex flex-wrap items-center gap-2">
 <span class="inline-flex items-center gap-1.5 text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2.5 py-0.5 rounded-full">
@@ -283,7 +283,7 @@
 <!-- Top 4 Premium KPI Cards -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 <!-- Total Available Balance (All Accounts + Portal) -->
-<div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 text-white rounded-2xl p-4 shadow-md border border-indigo-500/30 flex flex-col justify-between relative overflow-hidden">
+<div id="cardKulBalance" class="bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 text-white rounded-2xl p-4 shadow-md border border-indigo-500/30 flex flex-col justify-between relative overflow-hidden">
 <div class="flex items-center justify-between">
 <span class="text-xs font-bold text-indigo-200 uppercase tracking-wider">Kul Available Balance</span>
 <span class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-300">
@@ -7358,6 +7358,60 @@
 <input class="w-full text-xs font-mono border border-slate-300 rounded-lg px-3 py-2" id="txCustomerPhone" inputmode="numeric" maxlength="10" minlength="10" pattern="\d{10}" placeholder="10 Digit Mobile No." type="text"/>
 </div>
 </div>
+
+<!-- SMART CUSTOMER AUTO-SUGGESTION DROPDOWN (Pichle Customer Auto-Search) -->
+<div id="custSuggestionsBox" class="hidden relative z-30">
+  <div class="bg-white rounded-xl shadow-2xl border-2 border-indigo-500 p-2 space-y-1 max-h-56 overflow-y-auto custom-scroll">
+    <div class="flex items-center justify-between px-2 py-1 text-[11px] font-bold text-indigo-700 border-b border-indigo-100">
+      <span><i class="fa-solid fa-users text-indigo-600 mr-1"></i> Pehle Aaye Hue Customer (Click karke auto-fill karein):</span>
+      <span class="text-[10px] text-slate-400">Esc se band karein</span>
+    </div>
+    <div id="custSuggestionsList" class="space-y-1"></div>
+  </div>
+</div>
+
+<!-- REPEAT CUSTOMER DETECTED BANNER & 1-CLICK REPEAT FILL -->
+<div id="repeatCustomerBanner" class="hidden p-3 rounded-xl border-2 border-amber-400/80 bg-gradient-to-r from-amber-50 via-indigo-50 to-emerald-50 space-y-2 shadow-sm">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-xs shadow-xs">
+        <i class="fa-solid fa-user-check"></i>
+      </span>
+      <div>
+        <span id="rcbCustName" class="text-xs font-extrabold text-slate-900">Rajeshbhai Patel</span>
+        <span id="rcbCustPhone" class="text-[11px] font-mono text-slate-700 ml-1.5 font-bold">9825000000</span>
+        <span id="rcbVisitsCount" class="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-1.5 py-0.2 rounded-full ml-1.5">3 Entries</span>
+      </div>
+    </div>
+    <span id="rcbLifetimeVol" class="text-[11px] font-extrabold text-emerald-800">Kul Volume: ₹15,000</span>
+  </div>
+
+  <div class="p-2 rounded-lg bg-white border border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+    <div>
+      <span class="text-slate-500 text-[11px]">Pichli Service:</span>
+      <b id="rcbLastService" class="text-indigo-700 ml-1">DMT Transfer</b>
+      <span id="rcbLastDate" class="text-slate-500 text-[10px] ml-1">(05 Nov)</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-slate-500 text-[11px]">Amount:</span>
+      <b id="rcbLastAmount" class="text-emerald-700 font-bold">₹5,000</b>
+      <span class="text-slate-500 text-[11px]">Charge:</span>
+      <b id="rcbLastCharge" class="text-indigo-600 font-bold">₹50</b>
+    </div>
+  </div>
+
+  <!-- 2 Action Buttons -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+    <button type="button" id="btnApplyRepeatService" class="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md transition">
+      <i class="fa-solid fa-bolt text-amber-300"></i>
+      <span>⚡ Wahi Pichli Service Repeat Fill (1-Click)</span>
+    </button>
+    <button type="button" id="btnSelectNewService" class="w-full py-2 px-3 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition">
+      <i class="fa-solid fa-plus-circle text-indigo-600"></i>
+      <span>🆕 Detail Rakhein, Nayi Service Chunein</span>
+    </button>
+  </div>
+</div>
 <!-- Kiosk Banking & DMT Specific Fields (Bank Name & IFSC, 12-Digit Aadhaar No, Account No, Discount) -->
 <div class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3 bg-blue-50/70 p-3 rounded-xl border border-blue-200" id="kioskBankingFields">
 <div id="fieldWrapBankName">
@@ -11563,37 +11617,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       const target = document.getElementById('tab-' + tabId);
       if (target) target.classList.remove('hidden');
 
-      
-      // Theme Picker Listeners
-      const btnOpenTheme = document.getElementById('btnOpenThemeModal');
-      const modalTheme = document.getElementById('modalThemePicker');
-      const btnCloseTheme = document.getElementById('btnCloseThemePicker');
 
-      if (btnOpenTheme && modalTheme) {
-        btnOpenTheme.addEventListener('click', () => {
-          modalTheme.classList.remove('hidden');
-          modalTheme.classList.add('flex');
-        });
-      }
-      if (btnCloseTheme && modalTheme) {
-        btnCloseTheme.addEventListener('click', () => {
-          modalTheme.classList.add('hidden');
-          modalTheme.classList.remove('flex');
-        });
-      }
-      document.querySelectorAll('.theme-option-card').forEach(card => {
-        card.addEventListener('click', () => {
-          const tId = card.getAttribute('data-theme-id');
-          applyTheme(tId);
-          showToast(`🎨 Naya Design Theme Lag Gaya: ${card.querySelector('span.font-bold').textContent}`);
-          if (modalTheme) {
-            modalTheme.classList.add('hidden');
-            modalTheme.classList.remove('flex');
-          }
-        });
-      });
-      // Initial theme apply
-      applyTheme(appState.activeTheme || 'dark');
 
       document.querySelectorAll('.nav-tab-btn').forEach(btn => {
         const isCur = btn.getAttribute('data-tab') === tabId;
@@ -11814,6 +11838,126 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       document.getElementById('btnCancelTxModal').addEventListener('click', closeTxModal);
 
       // Submit Transaction Form (Supports both New Entry & Edit Existing Entry!)
+      
+      // Customer Autocomplete & Repeat Suggestions Listeners
+      const phoneInput = document.getElementById('txCustomerPhone');
+      const nameInput = document.getElementById('txCustomerName');
+
+      if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+          handleCustomerAutocomplete(e.target.value);
+        });
+      }
+      if (nameInput) {
+        nameInput.addEventListener('input', (e) => {
+          handleCustomerAutocomplete(e.target.value);
+        });
+      }
+
+      // Hide suggestions when clicking outside or pressing Escape
+      document.addEventListener('click', (e) => {
+        const box = document.getElementById('custSuggestionsBox');
+        if (box && !box.contains(e.target) && e.target !== phoneInput && e.target !== nameInput) {
+          box.classList.add('hidden');
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const box = document.getElementById('custSuggestionsBox');
+          if (box) box.classList.add('hidden');
+        }
+      });
+
+      // 1-Click Repeat Pichli Service Button Listener
+      const btnRepeat = document.getElementById('btnApplyRepeatService');
+      if (btnRepeat) {
+        btnRepeat.addEventListener('click', () => {
+          if (!selectedCustomerData) return;
+          const c = selectedCustomerData;
+
+          // 1. Set mode button
+          const mode = c.lastMode || 'sale';
+          if (mode === 'dmt') {
+            const b = document.getElementById('btnTypeDmt');
+            if (b) b.click();
+          } else if (mode === 'aeps') {
+            const b = document.getElementById('btnTypeAeps');
+            if (b) b.click();
+          } else if (mode === 'bill') {
+            const b = document.getElementById('btnTypeLightBill');
+            if (b) b.click();
+          } else if (mode === 'qr') {
+            const b = document.getElementById('btnTypeQrPay');
+            if (b) b.click();
+          } else if (mode === 'advance') {
+            const b = document.getElementById('btnTypeAdvance');
+            if (b) b.click();
+          } else {
+            const b = document.getElementById('btnTypeSale');
+            if (b) b.click();
+          }
+
+          // 2. Select service
+          const srvSelect = document.getElementById('txServiceId');
+          if (srvSelect) {
+            if (c.lastServiceId) srvSelect.value = c.lastServiceId;
+            srvSelect.dispatchEvent(new Event('change'));
+          }
+
+          // 3. Set amounts
+          if (c.lastAmount && document.getElementById('txSaleAmount')) {
+            document.getElementById('txSaleAmount').value = c.lastAmount;
+          }
+          if (c.lastCost && document.getElementById('txCostAmount')) {
+            document.getElementById('txCostAmount').value = c.lastCost;
+          }
+          if (c.lastCommission && document.getElementById('txPortalCommission')) {
+            document.getElementById('txPortalCommission').value = c.lastCommission;
+          }
+
+          // 4. Set Accounts
+          if (c.lastPortalAccountId && document.getElementById('txCostAccountId')) {
+            document.getElementById('txCostAccountId').value = c.lastPortalAccountId;
+          }
+          if (c.lastReceiveAccountId && document.getElementById('txDepositAccountId')) {
+            document.getElementById('txDepositAccountId').value = c.lastReceiveAccountId;
+          }
+
+          // 5. Set Bank details
+          if (c.lastBankName && document.getElementById('txCustomerBank')) {
+            document.getElementById('txCustomerBank').value = c.lastBankName;
+          }
+          if (c.lastBankAadhaar) {
+            if (c.lastBankAadhaar.length === 12 && document.getElementById('txAadhaarNo')) {
+              document.getElementById('txAadhaarNo').value = c.lastBankAadhaar;
+            } else if (document.getElementById('txBeneficiaryAcc')) {
+              document.getElementById('txBeneficiaryAcc').value = c.lastBankAadhaar;
+            }
+          }
+
+          if (typeof recalcTransactionModal === 'function') {
+            recalcTransactionModal();
+          }
+          showToast(`⚡ ${c.name} ki pichli service (${c.lastServiceName || 'Service'}) details auto-fill ho gayi! Bas Save dabayein.`);
+        });
+      }
+
+      // New Service with same customer
+      const btnNewSrv = document.getElementById('btnSelectNewService');
+      if (btnNewSrv) {
+        btnNewSrv.addEventListener('click', () => {
+          const banner = document.getElementById('repeatCustomerBanner');
+          if (banner) banner.classList.add('hidden');
+          const amt = document.getElementById('txSaleAmount');
+          if (amt) amt.value = '';
+          const cost = document.getElementById('txCostAmount');
+          if (cost) cost.value = '';
+          const comm = document.getElementById('txPortalCommission');
+          if (comm) comm.value = '';
+          showToast('🆕 Nayi service chunein — Customer Name & Phone safe hain!');
+        });
+      }
+
       document.getElementById('formTransaction').addEventListener('submit', (e) => {
         e.preventDefault();
         const checkPhone = document.getElementById('txCustomerPhone').value.replace(/\D/g, '').trim();
@@ -13485,4 +13629,227 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       if (appState.cloudSyncUrl) { pullStateFromCloud(true); }
     });
   </script>
-</body></html>
+</body></html/* ==================== 4 COMPLETE & VISUALLY DISTINCT THEMES ==================== */
+
+    /* THEME 1: Cyber Dark Fintech (Night Pro Kiosk) */
+    body.theme-dark {
+      background-color: #070b14 !important;
+      color: #f8fafc !important;
+    }
+    body.theme-dark header {
+      background: linear-gradient(135deg, #090d16 0%, #0f172a 100%) !important;
+      border-bottom: 2px solid #312e81 !important;
+    }
+    body.theme-dark #mainNavBarContainer {
+      background: #090d16 !important;
+    }
+    body.theme-dark .bg-white {
+      background-color: #0f172a !important;
+      color: #f8fafc !important;
+      border-color: #1e293b !important;
+    }
+    body.theme-dark .text-slate-900, body.theme-dark .text-slate-800 {
+      color: #f8fafc !important;
+    }
+    body.theme-dark .text-slate-700, body.theme-dark .text-slate-600 {
+      color: #cbd5e1 !important;
+    }
+    body.theme-dark .border-slate-200, body.theme-dark .border-slate-100 {
+      border-color: #1e293b !important;
+    }
+    body.theme-dark .bg-slate-50, body.theme-dark .bg-slate-100 {
+      background-color: #1e293b !important;
+      color: #f8fafc !important;
+    }
+    body.theme-dark table th {
+      background-color: #1e293b !important;
+      color: #e2e8f0 !important;
+      border-color: #334155 !important;
+    }
+    body.theme-dark table td {
+      border-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+    body.theme-dark input, body.theme-dark select, body.theme-dark textarea {
+      background-color: #1e293b !important;
+      color: #ffffff !important;
+      border-color: #334155 !important;
+    }
+
+    /* THEME 2: Royal Banking Blue (SBI / HDFC Corporate Pro) */
+    body.theme-royal {
+      background-color: #f0f4f8 !important;
+      color: #0f172a !important;
+    }
+    body.theme-royal header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%) !important;
+      border-bottom: 3px solid #3b82f6 !important;
+    }
+    body.theme-royal #mainNavBarContainer {
+      background: #172554 !important;
+    }
+    body.theme-royal .nav-tab-btn[data-tab="dashboard"].bg-indigo-600 {
+      background-color: #2563eb !important;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.4) !important;
+    }
+    body.theme-royal #heroCommandCenter {
+      background: linear-gradient(135deg, #172554 0%, #1e3a8a 50%, #1e40af 100%) !important;
+      border: 2px solid #60a5fa !important;
+      box-shadow: 0 10px 25px -5px rgba(30,58,138,0.3) !important;
+      color: #ffffff !important;
+    }
+    body.theme-royal #heroCommandCenter * {
+      color: #ffffff !important;
+    }
+    body.theme-royal #cardKulBalance {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
+      border: 2px solid #93c5fd !important;
+      box-shadow: 0 10px 25px -5px rgba(37,99,235,0.25) !important;
+      color: #ffffff !important;
+    }
+    body.theme-royal #cardKulBalance * {
+      color: #ffffff !important;
+    }
+    body.theme-royal #cardKulBalance #kpiPortalOnlyBalance,
+    body.theme-royal #cardKulBalance #kpiShreeHariLenaOnly {
+      color: #fef08a !important;
+    }
+    body.theme-royal #cardKulBalance #kpiTotalPlusShreeHari {
+      background-color: #10b981 !important;
+      color: #ffffff !important;
+    }
+    body.theme-royal .bg-white {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #bfdbfe !important;
+      box-shadow: 0 4px 14px rgba(30,58,138,0.06) !important;
+    }
+    body.theme-royal table th {
+      background-color: #eff6ff !important;
+      color: #1e3a8a !important;
+      border-color: #bfdbfe !important;
+    }
+    body.theme-royal table td {
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    body.theme-royal input, body.theme-royal select, body.theme-royal textarea {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #93c5fd !important;
+    }
+
+    /* THEME 3: Emerald Wealth Pro (Tally Prime & Green Fintech) */
+    body.theme-emerald {
+      background-color: #f0fdf4 !important;
+      color: #064e3b !important;
+    }
+    body.theme-emerald header {
+      background: linear-gradient(135deg, #064e3b 0%, #022c22 100%) !important;
+      border-bottom: 3px solid #10b981 !important;
+    }
+    body.theme-emerald #mainNavBarContainer {
+      background: #022c22 !important;
+    }
+    body.theme-emerald .nav-tab-btn[data-tab="dashboard"].bg-indigo-600 {
+      background-color: #059669 !important;
+      box-shadow: 0 4px 12px rgba(5,150,105,0.4) !important;
+    }
+    body.theme-emerald #heroCommandCenter {
+      background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #047857 100%) !important;
+      border: 2px solid #34d399 !important;
+      box-shadow: 0 10px 25px -5px rgba(6,78,59,0.3) !important;
+      color: #ffffff !important;
+    }
+    body.theme-emerald #heroCommandCenter * {
+      color: #ffffff !important;
+    }
+    body.theme-emerald #cardKulBalance {
+      background: linear-gradient(135deg, #064e3b 0%, #059669 100%) !important;
+      border: 2px solid #6ee7b7 !important;
+      box-shadow: 0 10px 25px -5px rgba(5,150,105,0.25) !important;
+      color: #ffffff !important;
+    }
+    body.theme-emerald #cardKulBalance * {
+      color: #ffffff !important;
+    }
+    body.theme-emerald #cardKulBalance #kpiPortalOnlyBalance,
+    body.theme-emerald #cardKulBalance #kpiShreeHariLenaOnly {
+      color: #fef08a !important;
+    }
+    body.theme-emerald #cardKulBalance #kpiTotalPlusShreeHari {
+      background-color: #047857 !important;
+      color: #ffffff !important;
+    }
+    body.theme-emerald .bg-white {
+      background-color: #ffffff !important;
+      color: #064e3b !important;
+      border-color: #a7f3d0 !important;
+      box-shadow: 0 4px 14px rgba(6,78,59,0.06) !important;
+    }
+    body.theme-emerald table th {
+      background-color: #ecfdf5 !important;
+      color: #065f46 !important;
+      border-color: #a7f3d0 !important;
+    }
+    body.theme-emerald table td {
+      border-color: #e2e8f0 !important;
+      color: #064e3b !important;
+    }
+    body.theme-emerald input, body.theme-emerald select, body.theme-emerald textarea {
+      background-color: #ffffff !important;
+      color: #064e3b !important;
+      border-color: #6ee7b7 !important;
+    }
+
+    /* THEME 4: Clean Daylight Light (Shop Sunlight Mode) */
+    body.theme-light {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+    }
+    body.theme-light header {
+      background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important;
+      border-bottom: 2px solid #64748b !important;
+    }
+    body.theme-light #mainNavBarContainer {
+      background: #1e293b !important;
+    }
+    body.theme-light #heroCommandCenter {
+      background: #ffffff !important;
+      border: 2px solid #cbd5e1 !important;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06) !important;
+      color: #0f172a !important;
+    }
+    body.theme-light #heroCommandCenter h2,
+    body.theme-light #heroCommandCenter p,
+    body.theme-light #heroCommandCenter span {
+      color: #0f172a !important;
+    }
+    body.theme-light #cardKulBalance {
+      background: #ffffff !important;
+      border: 2px solid #6366f1 !important;
+      box-shadow: 0 4px 15px rgba(99,102,241,0.1) !important;
+      color: #0f172a !important;
+    }
+    body.theme-light #cardKulBalance * {
+      color: #0f172a !important;
+    }
+    body.theme-light #cardKulBalance #kpiTotalBalance {
+      color: #1e1b4b !important;
+    }
+    body.theme-light #cardKulBalance #kpiPortalOnlyBalance {
+      color: #b45309 !important;
+    }
+    body.theme-light #cardKulBalance #kpiTotalPlusShreeHari {
+      background-color: #dcfce7 !important;
+      color: #15803d !important;
+      border-color: #86efac !important;
+    }
+    body.theme-light .bg-white {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+    }
+
+    >
