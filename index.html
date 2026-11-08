@@ -9574,10 +9574,12 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       document.getElementById('headerSubTitle').textContent = appState.officeSub;
       document.getElementById('rcptOfficeName').textContent = appState.officeName;
 
+      const todayFormatted = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      const monthFormatted = new Date().toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
       const periodLabels = {
-        today: 'Showing: Aaj (28 Oct 2026)',
+        today: 'Showing: Aaj (' + todayFormatted + ')',
         '7days': 'Showing: Pichle 7 Din',
-        month: 'Showing: October 2026',
+        month: 'Showing: ' + monthFormatted,
         all: 'Showing: Kul Sabhi (All Entries)',
         custom: 'Showing Date: ' + appState.customDate
       };
@@ -9652,7 +9654,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       let billC = 0, billV = 0, billP = 0;
       let expC = 0, expV = 0;
 
-      filteredTxs.forEach(t => {
+      filteredTx.forEach(t => {
         if (t.type === 'money_transfer') {
           dmtC++; dmtV += Number(t.saleAmount) || 0; dmtP += Number(t.profit) || 0;
         } else if (t.type === 'aeps_withdrawal') {
@@ -9668,28 +9670,42 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         }
       });
 
-      if (document.getElementById('kpiDmtCount')) document.getElementById('kpiDmtCount').textContent = String(dmtC);
-      if (document.getElementById('kpiDmtVol')) document.getElementById('kpiDmtVol').textContent = formatINR(dmtV);
-      if (document.getElementById('kpiDmtProfit')) document.getElementById('kpiDmtProfit').textContent = 'Munafa: +' + formatINR(dmtP);
+      // Update and selectively show ONLY used services
+      const updateCardVisibility = (cardSelector, count, vol, profit, volElId, countElId, profitElId, profitPrefix = 'Munafa: +') => {
+        const card = document.querySelector(`.lenden-srv-kpi[data-filter-type="${cardSelector}"]`);
+        if (!card) return;
+        if (count > 0) {
+          card.classList.remove('hidden');
+          const cEl = document.getElementById(countElId); if (cEl) cEl.textContent = String(count);
+          const vEl = document.getElementById(volElId); if (vEl) vEl.textContent = formatINR(vol);
+          const pEl = document.getElementById(profitElId); if (pEl) pEl.textContent = profitPrefix + formatINR(profit);
+        } else {
+          // Hide card if not used in this period as user requested!
+          card.classList.add('hidden');
+        }
+      };
 
-      if (document.getElementById('kpiAepsCount')) document.getElementById('kpiAepsCount').textContent = String(aepsC);
-      if (document.getElementById('kpiAepsVol')) document.getElementById('kpiAepsVol').textContent = formatINR(aepsV);
-      if (document.getElementById('kpiAepsProfit')) document.getElementById('kpiAepsProfit').textContent = 'Munafa: +' + formatINR(aepsP);
+      updateCardVisibility('money_transfer', dmtC, dmtV, dmtP, 'kpiDmtVol', 'kpiDmtCount', 'kpiDmtProfit');
+      updateCardVisibility('aeps_withdrawal', aepsC, aepsV, aepsP, 'kpiAepsVol', 'kpiAepsCount', 'kpiAepsProfit');
+      updateCardVisibility('qr_cash', qrCashC, qrCashV, qrCashP, 'kpiQrCashVol', 'kpiQrCashCount', 'kpiQrCashProfit');
+      updateCardVisibility('qr_pay', qrPayC, qrPayV, qrPayP, 'kpiQrPayVol', 'kpiQrPayCount', 'kpiQrPayProfit');
+      updateCardVisibility('light_bill', billC, billV, billP, 'kpiBillVol', 'kpiBillCount', 'kpiBillProfit');
+      updateCardVisibility('expense', expC, expV, 0, 'kpiExpVol', 'kpiExpCount', 'kpiExpVol', 'Galla Minus');
 
-      if (document.getElementById('kpiQrCashCount')) document.getElementById('kpiQrCashCount').textContent = String(qrCashC);
-      if (document.getElementById('kpiQrCashVol')) document.getElementById('kpiQrCashVol').textContent = formatINR(qrCashV);
-      if (document.getElementById('kpiQrCashProfit')) document.getElementById('kpiQrCashProfit').textContent = 'Munafa: +' + formatINR(qrCashP);
-
-      if (document.getElementById('kpiQrPayCount')) document.getElementById('kpiQrPayCount').textContent = String(qrPayC);
-      if (document.getElementById('kpiQrPayVol')) document.getElementById('kpiQrPayVol').textContent = formatINR(qrPayV);
-      if (document.getElementById('kpiQrPayProfit')) document.getElementById('kpiQrPayProfit').textContent = 'Munafa: +' + formatINR(qrPayP);
-
-      if (document.getElementById('kpiBillCount')) document.getElementById('kpiBillCount').textContent = String(billC);
-      if (document.getElementById('kpiBillVol')) document.getElementById('kpiBillVol').textContent = formatINR(billV);
-      if (document.getElementById('kpiBillProfit')) document.getElementById('kpiBillProfit').textContent = 'Munafa: +' + formatINR(billP);
-
-      if (document.getElementById('kpiExpCount')) document.getElementById('kpiExpCount').textContent = String(expC);
-      if (document.getElementById('kpiExpVol')) document.getElementById('kpiExpVol').textContent = formatINR(expV);
+      // Also dynamically show/hide filter pills for unused services
+      const updatePillVisibility = (pillType, count) => {
+        const pill = document.querySelector(`.lenden-pill-btn[data-pill-type="${pillType}"]`);
+        if (pill) {
+          if (count > 0) pill.classList.remove('hidden');
+          else pill.classList.add('hidden');
+        }
+      };
+      updatePillVisibility('money_transfer', dmtC);
+      updatePillVisibility('aeps_withdrawal', aepsC);
+      updatePillVisibility('qr_cash', qrCashC);
+      updatePillVisibility('qr_pay', qrPayC);
+      updatePillVisibility('light_bill', billC);
+      updatePillVisibility('expense', expC);
 
       renderExpensesTab();
 
@@ -12393,7 +12409,11 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
           </div>
         </div>
       `;
-      window.print();
+      container.style.display = 'block';
+      setTimeout(() => {
+        window.print();
+        setTimeout(() => { container.style.display = 'none'; container.innerHTML = ''; }, 800);
+      }, 200);
     }
 
     function printUdhaarReport() {
@@ -12439,7 +12459,11 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
           </table>
         </div>
       `;
-      window.print();
+      container.style.display = 'block';
+      setTimeout(() => {
+        window.print();
+        setTimeout(() => { container.style.display = 'none'; container.innerHTML = ''; }, 800);
+      }, 200);
     }
 
     function printBalanceSheetReport() {
@@ -12479,7 +12503,11 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
           </table>
         </div>
       `;
-      window.print();
+      container.style.display = 'block';
+      setTimeout(() => {
+        window.print();
+        setTimeout(() => { container.style.display = 'none'; container.innerHTML = ''; }, 800);
+      }, 200);
     }
 
     function copyWhatsAppSummary() {
@@ -13863,19 +13891,32 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         });
       }
 
+      const closeReportModal = () => {
+        const modalRep = document.getElementById('modalReportHub');
+        if (modalRep) {
+          modalRep.classList.add('hidden');
+          modalRep.classList.remove('flex');
+        }
+      };
+
       document.getElementById('btnPrintRoznamcha')?.addEventListener('click', () => {
-        printRoznamchaReport();
+        closeReportModal();
+        setTimeout(printRoznamchaReport, 150);
       });
       document.getElementById('btnDownloadExcelModal')?.addEventListener('click', () => {
+        closeReportModal();
         exportCSV();
       });
       document.getElementById('btnPrintUdhaarStatement')?.addEventListener('click', () => {
-        printUdhaarReport();
+        closeReportModal();
+        setTimeout(printUdhaarReport, 150);
       });
       document.getElementById('btnPrintBalanceSheet')?.addEventListener('click', () => {
-        printBalanceSheetReport();
+        closeReportModal();
+        setTimeout(printBalanceSheetReport, 150);
       });
       document.getElementById('btnCopyWhatsAppSummary')?.addEventListener('click', () => {
+        closeReportModal();
         copyWhatsAppSummary();
       });
 
