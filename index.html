@@ -166,6 +166,11 @@
           <span>Udhaar Khata</span>
           <span id="badgeUdhaarCount" class="bg-rose-500 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
         </button>
+        <button type="button" data-tab="expenses" class="nav-tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-rose-300 hover:text-rose-200 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30">
+          <i class="fa-solid fa-receipt text-rose-400"></i>
+          <span>Office Kharcha</span>
+          <span id="badgeExpenseCount" class="bg-rose-600 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
+        </button>
       </div>
     </div>
   </header>
@@ -1173,6 +1178,82 @@
 </section>
 <!-- ==================== TAB 2: DAILY LENDEN (ROZNAMCHA) ==================== -->
 <section class="tab-panel hidden space-y-4" id="tab-lenden">
+  <!-- LIVE SERVICE-WISE PERFORMANCE STRIP (Aaj Kisme Kya Hua & Kitna Hua) -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5" id="lendenServiceSummaryGrid">
+    <!-- 1. DMT -->
+    <div class="lenden-srv-kpi p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/80 cursor-pointer hover:shadow-md transition" data-filter-type="money_transfer" title="Click: Sirf Money Transfer Dekhein">
+      <div class="flex items-center justify-between text-xs font-bold text-indigo-950">
+        <span>💸 Money Transfer</span>
+        <span id="kpiDmtCount" class="text-[10px] bg-indigo-200 text-indigo-800 font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+      </div>
+      <div class="mt-1 text-sm font-extrabold text-indigo-700" id="kpiDmtVol">₹0</div>
+      <div class="text-[10px] text-emerald-700 font-bold" id="kpiDmtProfit">Munafa: +₹0</div>
+    </div>
+
+    <!-- 2. AEPS -->
+    <div class="lenden-srv-kpi p-2.5 rounded-xl border border-amber-200 bg-amber-50/80 cursor-pointer hover:shadow-md transition" data-filter-type="aeps_withdrawal" title="Click: Sirf AEPS Cash Dekhein">
+      <div class="flex items-center justify-between text-xs font-bold text-amber-950">
+        <span>🖐️ AEPS Cash</span>
+        <span id="kpiAepsCount" class="text-[10px] bg-amber-200 text-amber-800 font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+      </div>
+      <div class="mt-1 text-sm font-extrabold text-amber-700" id="kpiAepsVol">₹0</div>
+      <div class="text-[10px] text-emerald-700 font-bold" id="kpiAepsProfit">Munafa: +₹0</div>
+    </div>
+
+    <!-- 3. QR Cash -->
+    <div class="lenden-srv-kpi p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/80 cursor-pointer hover:shadow-md transition" data-filter-type="qr_cash" title="Click: Sirf QR Cash Nikasi Dekhein">
+      <div class="flex items-center justify-between text-xs font-bold text-emerald-950">
+        <span>📲 QR Cash</span>
+        <span id="kpiQrCashCount" class="text-[10px] bg-emerald-200 text-emerald-800 font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+      </div>
+      <div class="mt-1 text-sm font-extrabold text-emerald-700" id="kpiQrCashVol">₹0</div>
+      <div class="text-[10px] text-emerald-700 font-bold" id="kpiQrCashProfit">Munafa: +₹0</div>
+    </div>
+
+    <!-- 4. QR Pay -->
+    <div class="lenden-srv-kpi p-2.5 rounded-xl border border-purple-200 bg-purple-50/80 cursor-pointer hover:shadow-md transition" data-filter-type="qr_pay" title="Click: Sirf Paytm QR Pay Dekhein">
+      <div class="flex items-center justify-between text-xs font-bold text-purple-950">
+        <span>💳 Paytm QR Pay</span>
+        <span id="kpiQrPayCount" class="text-[10px] bg-purple-200 text-purple-800 font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+      </div>
+      <div class="mt-1 text-sm font-extrabold text-purple-700" id="kpiQrPayVol">₹0</div>
+      <div class="text-[10px] text-emerald-700 font-bold" id="kpiQrPayProfit">Munafa: +₹0</div>
+    </div>
+
+    <!-- 5. Light Bill -->
+    <div class="lenden-srv-kpi p-2.5 rounded-xl border border-sky-200 bg-sky-50/80 cursor-pointer hover:shadow-md transition" data-filter-type="light_bill" title="Click: Sirf Light Bill Dekhein">
+      <div class="flex items-center justify-between text-xs font-bold text-sky-950">
+        <span>💡 Light Bill</span>
+        <span id="kpiBillCount" class="text-[10px] bg-sky-200 text-sky-800 font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+      </div>
+      <div class="mt-1 text-sm font-extrabold text-sky-700" id="kpiBillVol">₹0</div>
+      <div class="text-[10px] text-emerald-700 font-bold" id="kpiBillProfit">Munafa: +₹0</div>
+    </div>
+
+    <!-- 6. Kharcha -->
+    <div class="lenden-srv-kpi p-2.5 rounded-xl border border-rose-200 bg-rose-50/80 cursor-pointer hover:shadow-md transition" data-filter-type="expense" title="Click: Sirf Office Kharcha Dekhein">
+      <div class="flex items-center justify-between text-xs font-bold text-rose-950">
+        <span>📉 Office Kharcha</span>
+        <span id="kpiExpCount" class="text-[10px] bg-rose-200 text-rose-800 font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+      </div>
+      <div class="mt-1 text-sm font-extrabold text-rose-700" id="kpiExpVol">₹0</div>
+      <div class="text-[10px] text-rose-600 font-bold">Galla Minus</div>
+    </div>
+  </div>
+
+  <!-- SERVICE FILTER PILLS -->
+  <div class="flex flex-wrap items-center gap-1.5 bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs" id="lendenFilterPills">
+    <span class="text-xs font-bold text-slate-500 mr-1"><i class="fa-solid fa-filter text-indigo-600 mr-1"></i> Service Filter:</span>
+    <button type="button" class="lenden-pill-btn px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-xs" data-pill-type="all">✨ Sabhi Mix (All)</button>
+    <button type="button" class="lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200" data-pill-type="money_transfer">💸 Money Transfer (DMT)</button>
+    <button type="button" class="lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200" data-pill-type="aeps_withdrawal">🖐️ AEPS Cash</button>
+    <button type="button" class="lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200" data-pill-type="qr_cash">📲 QR Se Cash</button>
+    <button type="button" class="lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200" data-pill-type="qr_pay">💳 Paytm QR Pay</button>
+    <button type="button" class="lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200" data-pill-type="light_bill">💡 Light Bill</button>
+    <button type="button" class="lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200" data-pill-type="expense">📉 Office Kharcha</button>
+    <button type="button" class="lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200" data-pill-type="udhaar_recovery">🤝 Udhaar Vasooli</button>
+  </div>
+
 <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
 <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
 <div>
@@ -6338,7 +6419,94 @@
 </div>
 </div>
 </section>
-<!-- ==================== TAB 8: PARTNER SHOPS / VENDOR KHATA (B2B) ==================== -->
+<!-- ==================== TAB 9: DEDICATED OFFICE KHARCHA (EXPENSES) ==================== -->
+    <section class="tab-panel space-y-4 hidden" id="tab-expenses">
+      <!-- Top Expense KPI Banner -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+        <div class="bg-gradient-to-br from-rose-900 to-rose-950 text-white rounded-2xl p-4 shadow-md border border-rose-500/30 flex flex-col justify-between">
+          <span class="text-xs font-bold text-rose-200 uppercase tracking-wider">Aaj Ka Kul Kharcha (Today)</span>
+          <div class="my-2">
+            <div id="expKpiTodayTotal" class="text-2xl sm:text-3xl font-extrabold text-white">₹0</div>
+            <p class="text-[11px] text-rose-200 mt-1" id="expKpiTodayCount">0 Kharcha Entries</p>
+          </div>
+          <div class="text-[11px] text-rose-300">Seedha Cash Galla / Bank se minus</div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col justify-between">
+          <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Is Mahine Ka Kharcha (Month)</span>
+          <div class="my-2">
+            <div id="expKpiMonthTotal" class="text-2xl font-extrabold text-slate-900">₹0</div>
+            <p class="text-[11px] text-slate-500 mt-1">Pura Mahina Kharcha</p>
+          </div>
+          <div class="text-[11px] text-slate-400">Total Monthly Outflow</div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col justify-between">
+          <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Cash Galla Se Kharcha</span>
+          <div class="my-2">
+            <div id="expKpiCashTotal" class="text-2xl font-extrabold text-rose-600">₹0</div>
+            <p class="text-[11px] text-slate-500 mt-1">9. CASH Galla se gaya</p>
+          </div>
+          <div class="text-[11px] text-slate-400">Dukan Ke Chutta Cash Kharcha</div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col justify-between">
+          <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Bank A/c Se Kharcha</span>
+          <div class="my-2">
+            <div id="expKpiBankTotal" class="text-2xl font-extrabold text-indigo-600">₹0</div>
+            <p class="text-[11px] text-slate-500 mt-1">UPI / NetBanking Kharcha</p>
+          </div>
+          <button type="button" id="btnExpTabAddKharcha" class="mt-2 py-1.5 px-3 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl shadow-xs flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-plus-circle"></i> + Naya Kharcha Likhein
+          </button>
+        </div>
+      </div>
+
+      <!-- Expense Table Box -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-receipt text-rose-600"></i> Office Kharcha (Expense) Register
+            </h3>
+            <p class="text-xs text-slate-500">Dukan ke sabhi kharche (Chai, Stationery, Rent, Light, Personal, Unkonon)</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="text" id="inputSearchExpenses" placeholder="Party ya kharcha item khojein..." class="text-xs border border-slate-300 rounded-xl px-3 py-1.5 w-52 focus:ring-2 focus:ring-rose-500">
+            <button type="button" id="btnExpAddNew" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold shadow-xs flex items-center gap-1">
+              <i class="fa-solid fa-plus"></i> + Naya Kharcha
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto custom-scroll">
+          <table class="w-full text-xs text-left">
+            <thead>
+              <tr class="bg-rose-50 text-rose-950 font-bold border-b border-rose-200">
+                <th class="py-2.5 px-3">DATE &amp; ID</th>
+                <th class="py-2.5 px-3">KISKO DIYA / PARTY</th>
+                <th class="py-2.5 px-3">KHARCHA VIVARAN / NOTE</th>
+                <th class="py-2.5 px-3">KIS ACCOUNT SE DIYA</th>
+                <th class="py-2.5 px-3 text-right">KHARCHA AMOUNT</th>
+                <th class="py-2.5 px-3 text-center">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyExpensesTable" class="divide-y divide-slate-100">
+              <tr><td colspan="6" class="py-6 text-center text-slate-400">Abhi koi office kharcha entry nahi mili.</td></tr>
+            </tbody>
+            <tfoot>
+              <tr class="bg-rose-100/70 font-extrabold text-rose-950 border-t-2 border-rose-300">
+                <td colspan="4" class="py-2.5 px-3">KUL KHARCHA TOTAL</td>
+                <td class="py-2.5 px-3 text-right text-rose-700 text-sm" id="expTableTotalAmount">₹0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 8: PARTNER SHOPS / VENDOR KHATA (B2B) ==================== -->
 <section class="tab-panel hidden space-y-5" id="tab-vendors">
 <!-- Top Summary Cards for Partner Shops -->
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -9317,6 +9485,90 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       return txList;
     }
 
+    
+    // ==================== DEDICATED OFFICE KHARCHA (EXPENSES) LOGIC ====================
+    function renderExpensesTab() {
+      const allExp = (appState.transactions || []).filter(t => t.type === 'expense');
+      const todayStr = getLocalTodayStr();
+      const monthStr = todayStr.slice(0, 7);
+
+      const todayExp = allExp.filter(t => t.date === todayStr);
+      const monthExp = allExp.filter(t => (t.date || '').startsWith(monthStr));
+
+      const totToday = todayExp.reduce((s, t) => s + (Number(t.costAmount) || 0), 0);
+      const totMonth = monthExp.reduce((s, t) => s + (Number(t.costAmount) || 0), 0);
+
+      const cashExp = allExp.filter(t => t.depositAccountId === 'acc_cash' || t.depositAccountId === 'acc_cash_galla').reduce((s, t) => s + (Number(t.costAmount) || 0), 0);
+      const bankExp = allExp.filter(t => t.depositAccountId !== 'acc_cash' && t.depositAccountId !== 'acc_cash_galla').reduce((s, t) => s + (Number(t.costAmount) || 0), 0);
+
+      if (document.getElementById('expKpiTodayTotal')) document.getElementById('expKpiTodayTotal').textContent = formatINR(totToday);
+      if (document.getElementById('expKpiTodayCount')) document.getElementById('expKpiTodayCount').textContent = `${todayExp.length} Kharcha Entries Aaj`;
+      if (document.getElementById('expKpiMonthTotal')) document.getElementById('expKpiMonthTotal').textContent = formatINR(totMonth);
+      if (document.getElementById('expKpiCashTotal')) document.getElementById('expKpiCashTotal').textContent = formatINR(cashExp);
+      if (document.getElementById('expKpiBankTotal')) document.getElementById('expKpiBankTotal').textContent = formatINR(bankExp);
+      if (document.getElementById('badgeExpenseCount')) document.getElementById('badgeExpenseCount').textContent = String(allExp.length);
+
+      // Render expense register table
+      const searchQ = (document.getElementById('inputSearchExpenses')?.value || '').trim().toLowerCase();
+      let filtered = allExp;
+      if (searchQ) {
+        filtered = filtered.filter(t => 
+          (t.customerName && t.customerName.toLowerCase().includes(searchQ)) ||
+          (t.description && t.description.toLowerCase().includes(searchQ))
+        );
+      }
+
+      const tbody = document.getElementById('tbodyExpensesTable');
+      if (tbody) {
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400">Koi office kharcha entry nahi mili.</td></tr>`;
+        } else {
+          tbody.innerHTML = filtered.map(t => `
+            <tr class="hover:bg-rose-50/40">
+              <td class="py-2.5 px-3">
+                <div class="font-bold text-slate-900">${t.date}</div>
+                <div class="text-[10px] text-slate-400 font-mono">${t.id}</div>
+              </td>
+              <td class="py-2.5 px-3 font-bold text-slate-800">
+                ${escapeHtml(t.customerName || 'OFFICE EXPENSE')}
+              </td>
+              <td class="py-2.5 px-3 text-slate-700">
+                ${escapeHtml(t.description || 'Kharcha')}
+              </td>
+              <td class="py-2.5 px-3">
+                <span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">
+                  ${escapeHtml(getAccountName(t.depositAccountId))}
+                </span>
+              </td>
+              <td class="py-2.5 px-3 text-right font-extrabold text-sm text-rose-600">
+                ${formatINR(t.costAmount || 0)}
+              </td>
+              <td class="py-2.5 px-3 text-center space-x-1">
+                <button type="button" data-edit-tx="${t.id}" class="text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-1 rounded font-bold text-[11px]" title="Edit Kharcha">
+                  <i class="fa-solid fa-pen"></i> Edit
+                </button>
+                <button type="button" data-del-tx="${t.id}" class="text-rose-600 hover:bg-rose-50 px-2 py-1 rounded" title="Delete Kharcha">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `).join('');
+
+          tbody.querySelectorAll('[data-edit-tx]').forEach(btn => {
+            btn.addEventListener('click', () => editTransaction(btn.getAttribute('data-edit-tx')));
+          });
+          tbody.querySelectorAll('[data-del-tx]').forEach(btn => {
+            btn.addEventListener('click', () => deleteTransaction(btn.getAttribute('data-del-tx')));
+          });
+        }
+      }
+
+      const totFilterExp = filtered.reduce((s, t) => s + (Number(t.costAmount) || 0), 0);
+      if (document.getElementById('expTableTotalAmount')) {
+        document.getElementById('expTableTotalAmount').textContent = formatINR(totFilterExp);
+      }
+    }
+
     function renderAll() {
       document.getElementById('headerOfficeName').textContent = appState.officeName;
       document.getElementById('headerSubTitle').textContent = appState.officeSub;
@@ -9391,6 +9643,56 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
 
       document.getElementById('kpiNetProfit').textContent = formatINR(netProfit);
       document.getElementById('kpiServiceMargin').textContent = formatINR(grossServiceMargin);
+
+      // Live Service-wise Summary Strip in Daily Lenden
+      let dmtC = 0, dmtV = 0, dmtP = 0;
+      let aepsC = 0, aepsV = 0, aepsP = 0;
+      let qrCashC = 0, qrCashV = 0, qrCashP = 0;
+      let qrPayC = 0, qrPayV = 0, qrPayP = 0;
+      let billC = 0, billV = 0, billP = 0;
+      let expC = 0, expV = 0;
+
+      filteredTxs.forEach(t => {
+        if (t.type === 'money_transfer') {
+          dmtC++; dmtV += Number(t.saleAmount) || 0; dmtP += Number(t.profit) || 0;
+        } else if (t.type === 'aeps_withdrawal') {
+          aepsC++; aepsV += Number(t.saleAmount) || 0; aepsP += Number(t.profit) || 0;
+        } else if (t.type === 'qr_cash') {
+          qrCashC++; qrCashV += Number(t.primaryAmount || t.saleAmount) || 0; qrCashP += Number(t.profit) || 0;
+        } else if (t.type === 'qr_pay') {
+          qrPayC++; qrPayV += Number(t.saleAmount) || 0; qrPayP += Number(t.profit) || 0;
+        } else if (t.type === 'light_bill') {
+          billC++; billV += Number(t.saleAmount) || 0; billP += Number(t.profit) || 0;
+        } else if (t.type === 'expense') {
+          expC++; expV += Number(t.costAmount) || 0;
+        }
+      });
+
+      if (document.getElementById('kpiDmtCount')) document.getElementById('kpiDmtCount').textContent = String(dmtC);
+      if (document.getElementById('kpiDmtVol')) document.getElementById('kpiDmtVol').textContent = formatINR(dmtV);
+      if (document.getElementById('kpiDmtProfit')) document.getElementById('kpiDmtProfit').textContent = 'Munafa: +' + formatINR(dmtP);
+
+      if (document.getElementById('kpiAepsCount')) document.getElementById('kpiAepsCount').textContent = String(aepsC);
+      if (document.getElementById('kpiAepsVol')) document.getElementById('kpiAepsVol').textContent = formatINR(aepsV);
+      if (document.getElementById('kpiAepsProfit')) document.getElementById('kpiAepsProfit').textContent = 'Munafa: +' + formatINR(aepsP);
+
+      if (document.getElementById('kpiQrCashCount')) document.getElementById('kpiQrCashCount').textContent = String(qrCashC);
+      if (document.getElementById('kpiQrCashVol')) document.getElementById('kpiQrCashVol').textContent = formatINR(qrCashV);
+      if (document.getElementById('kpiQrCashProfit')) document.getElementById('kpiQrCashProfit').textContent = 'Munafa: +' + formatINR(qrCashP);
+
+      if (document.getElementById('kpiQrPayCount')) document.getElementById('kpiQrPayCount').textContent = String(qrPayC);
+      if (document.getElementById('kpiQrPayVol')) document.getElementById('kpiQrPayVol').textContent = formatINR(qrPayV);
+      if (document.getElementById('kpiQrPayProfit')) document.getElementById('kpiQrPayProfit').textContent = 'Munafa: +' + formatINR(qrPayP);
+
+      if (document.getElementById('kpiBillCount')) document.getElementById('kpiBillCount').textContent = String(billC);
+      if (document.getElementById('kpiBillVol')) document.getElementById('kpiBillVol').textContent = formatINR(billV);
+      if (document.getElementById('kpiBillProfit')) document.getElementById('kpiBillProfit').textContent = 'Munafa: +' + formatINR(billP);
+
+      if (document.getElementById('kpiExpCount')) document.getElementById('kpiExpCount').textContent = String(expC);
+      if (document.getElementById('kpiExpVol')) document.getElementById('kpiExpVol').textContent = formatINR(expV);
+
+      renderExpensesTab();
+
       document.getElementById('kpiTotalRevenue').textContent = formatINR(totalRevenue);
       document.getElementById('kpiTotalOutflow').textContent = formatINR(totalCostAndExpense);
       document.getElementById('kpiActiveInquiries').textContent = String(activeInquiries);
@@ -9794,6 +10096,16 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
               <div class="text-[11px] text-slate-500">${t.customerPhone || ''}</div>
             </td>
             <td class="py-2.5 px-3">
+              <div class="mb-1">
+                ${t.type === 'money_transfer' ? '<span class="bg-indigo-100 text-indigo-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">💸 Money Transfer (DMT)</span>' : ''}
+                ${t.type === 'aeps_withdrawal' ? '<span class="bg-amber-100 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">🖐️ AEPS Withdrawal</span>' : ''}
+                ${t.type === 'qr_cash' ? '<span class="bg-emerald-100 text-emerald-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">📲 QR Se Cash Nikasi</span>' : ''}
+                ${t.type === 'qr_pay' ? '<span class="bg-purple-100 text-purple-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">💳 Paytm QR Pay</span>' : ''}
+                ${t.type === 'light_bill' ? '<span class="bg-sky-100 text-sky-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">💡 Light Bill Pay</span>' : ''}
+                ${t.type === 'expense' ? '<span class="bg-rose-100 text-rose-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">📉 Office Kharcha</span>' : ''}
+                ${t.type === 'customer_advance' ? '<span class="bg-teal-100 text-teal-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">🎟️ Work Advance</span>' : ''}
+                ${t.type === 'udhaar_recovery' ? '<span class="bg-emerald-100 text-emerald-900 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">🤝 Udhaar Vasooli</span>' : ''}
+              </div>
               <span class="font-medium text-slate-800">${t.description}</span>
             </td>
             <td class="py-2.5 px-3 text-[11px]">
@@ -11978,7 +12290,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         } else {
           if (t === 'vendors') {
             btn.className = 'nav-tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30';
-          } else if (t === 'udhaar') {
+          } else if (t === 'udhaar' || t === 'expenses') {
             btn.className = 'nav-tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-rose-300 hover:text-rose-200 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30';
           } else {
             btn.className = 'nav-tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-800/90 border border-slate-800';
@@ -13435,6 +13747,42 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       document.getElementById('taskStatusFilter').addEventListener('change', renderTasksTab);
       document.getElementById('btnExportCSV').addEventListener('click', exportCSV);
 
+      // Daily Lenden Service Filter Pills & KPI Cards
+      function applyLendenServiceFilter(typeVal) {
+        document.querySelectorAll('.lenden-pill-btn').forEach(btn => {
+          const bType = btn.getAttribute('data-pill-type');
+          if (bType === typeVal) {
+            btn.className = 'lenden-pill-btn px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-xs';
+          } else {
+            btn.className = 'lenden-pill-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200';
+          }
+        });
+
+        const filterSelect = document.getElementById('txTypeFilter');
+        if (filterSelect) {
+          filterSelect.value = typeVal;
+          filterSelect.dispatchEvent(new Event('change'));
+        }
+      }
+
+      document.querySelectorAll('.lenden-pill-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          applyLendenServiceFilter(btn.getAttribute('data-pill-type'));
+        });
+      });
+
+      document.querySelectorAll('.lenden-srv-kpi').forEach(kpi => {
+        kpi.addEventListener('click', () => {
+          applyLendenServiceFilter(kpi.getAttribute('data-filter-type'));
+        });
+      });
+
+      // Expense Tab Listeners
+      document.getElementById('inputSearchExpenses')?.addEventListener('input', renderExpensesTab);
+      document.getElementById('btnExpAddNew')?.addEventListener('click', () => openTransactionModal('expense'));
+      document.getElementById('btnExpTabAddKharcha')?.addEventListener('click', () => openTransactionModal('expense'));
+
+
       // Customer DMT SMS Modal Listeners
       const modalSms = document.getElementById('modalCustomerReceiptSms');
       const btnCloseSms = document.getElementById('btnCloseSmsReceiptModal');
@@ -14412,7 +14760,8 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       if (appState.cloudSyncUrl) { pullStateFromCloud(true); }
     });
   </script>
-<div id="printContainer" class="hidden"></div>
+
+<div id="printContainer" style="display:none;"></div>
 </body></html/* ==================== 4 COMPLETE & VISUALLY DISTINCT THEMES ==================== */
 
     /* THEME 1: Cyber Dark Fintech (Night Pro Kiosk) */
