@@ -7285,7 +7285,7 @@
 </main>
 <!-- ==================== MODAL 1: NEW LENDEN (SALE / EXPENSE) ==================== -->
 <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4" id="modalTransaction">
-<div class="bg-white rounded-2xl max-w-xl w-full p-5 shadow-2xl border border-slate-200 max-h-[92vh] overflow-y-auto">
+<div class="bg-white rounded-2xl max-w-2xl w-full p-3.5 sm:p-4 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto custom-scroll">
 <div class="flex items-center justify-between pb-3 border-b border-slate-200">
 <div>
 <h3 class="text-base font-bold text-slate-900">Nayi Lenden Entry (Service Sale ya Office Kharcha)</h3>
@@ -7295,7 +7295,7 @@
 <i class="fa-solid fa-xmark text-lg"></i>
 </button>
 </div>
-<form class="space-y-3.5 mt-4" id="formTransaction">
+<form class="space-y-2 mt-2.5" id="formTransaction">
 <!-- 7 Mode Selector Buttons (Added Ticket / Customer Advance Mode) -->
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 bg-slate-100 p-1.5 rounded-xl">
 <button class="py-2 px-2 rounded-lg text-[11px] font-bold bg-emerald-600 text-white shadow-xs" id="btnTypeSale" type="button">
@@ -8442,6 +8442,71 @@
         <p class="text-xs text-slate-600">Aaj ka poora hisab (Total Bal, Munafa, Volume, Cash Galla, Shree Hari Lena) WhatsApp par bhejne ke liye 1-click me format hokar copy ho jayega.</p>
         <button type="button" id="btnCopyWhatsAppSummary" class="w-full py-2 px-3 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md">
           <i class="fa-solid fa-copy text-amber-300"></i> 📋 Copy WhatsApp Summary Text
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- ==================== MODAL 18: CUSTOMER DMT SMS & WHATSAPP RECEIPT ==================== -->
+  <div id="modalCustomerReceiptSms" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-slate-200 space-y-3.5">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-paper-plane"></i>
+          </span>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">📲 Customer DMT Confirmation Message</h3>
+            <p class="text-[11px] text-slate-500">Customer ko transfer confirm message bhejein (WhatsApp ya SMS)</p>
+          </div>
+        </div>
+        <button type="button" id="btnCloseSmsReceiptModal" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-semibold text-slate-700">Customer Mobile No:</span>
+          <b id="smsReceiptCustPhone" class="font-mono text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded font-bold">9825000000</b>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Message Text Preview (Aap edit bhi kar sakte hain):</label>
+          <textarea id="smsReceiptMessageText" rows="4" class="w-full text-xs font-mono border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500"></textarea>
+        </div>
+      </div>
+
+      <!-- Send Buttons -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+        <button type="button" id="btnSendWhatsappMsg" class="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition">
+          <i class="fa-brands fa-whatsapp text-base"></i>
+          <span>WhatsApp Par Bhejein</span>
+        </button>
+        <button type="button" id="btnSendMobileSms" class="py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition">
+          <i class="fa-solid fa-comment-sms text-base"></i>
+          <span>Mobile Text SMS</span>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between pt-1 border-t border-slate-100 text-xs">
+        <button type="button" id="btnCopySmsText" class="text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1">
+          <i class="fa-solid fa-copy"></i> Copy Message
+        </button>
+        
+      <!-- Expandable Template Customization Box -->
+      <div id="smsTemplateEditBox" class="hidden p-2.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5 text-xs">
+        <label class="block font-bold text-slate-700">DMT Message Template Format:</label>
+        <textarea id="inputCustomSmsTemplate" rows="2" class="w-full text-xs font-mono border border-slate-300 rounded-lg p-2"></textarea>
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] text-slate-500">Tags: {CUSTOMER}, {AMOUNT}, {BANK}, {ACCOUNT}, {TX_ID}, {DATE}, {SHOP_NAME}</span>
+          <button type="button" id="btnSaveCustomSmsTemplate" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded font-bold text-xs">Save Template</button>
+        </div>
+      </div>
+
+        <button type="button" id="btnEditSmsTemplate" class="text-slate-500 hover:text-slate-700 underline text-[11px]">
+          ⚙️ Message Template Badlein
         </button>
       </div>
     </div>
@@ -10912,10 +10977,21 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       }
     }
 
-    function filterModalServicesByPortal(portalId) {
+    function filterModalServicesByPortal(portalId, keepMode = null) {
       const srvSelect = document.getElementById('txServiceId');
-      const matching = appState.services.filter(s => s.portalId === portalId);
+      if (!srvSelect) return;
+      const currentMode = keepMode || document.getElementById('txEntryType').value;
       const portalName = getAccountName(portalId);
+
+      let matching = appState.services.filter(s => s.portalId === portalId);
+
+      // If user is in a specific active mode (DMT, AEPS, Bill, etc.), prioritize or filter services of that mode!
+      if (currentMode && currentMode !== 'service_sale' && currentMode !== 'expense') {
+        const modeMatching = matching.filter(s => s.mode === currentMode);
+        if (modeMatching.length > 0) {
+          matching = modeMatching;
+        }
+      }
 
       if (matching.length > 0) {
         srvSelect.innerHTML = matching.map(s =>
@@ -11019,6 +11095,13 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         const qrBankName = getAccountName(document.getElementById('txAepsQrBankId').value);
         const totalPortalAdd = round2(withdrawalAmt + comm);
         const totalProfit = round2(customerFee + comm);
+                const titleEl = document.getElementById('lblLiveCalcProfitTitle');
+        if (titleEl) {
+          titleEl.textContent = 'Is Kaam Par Shuddh Profit:';
+          titleEl.className = 'text-slate-500';
+        }
+        const profitEl = document.getElementById('liveCalcProfit');
+        if (profitEl) profitEl.className = 'font-bold text-emerald-600 ml-1';
         document.getElementById('liveCalcProfit').textContent = formatINR(totalProfit);
         document.getElementById('liveCalcDue').textContent = '₹0';
 
@@ -11037,10 +11120,50 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
             <div>• 4. Customer ne Charge alag se diya (<b>+${formatINR(customerFee)}</b> in ${depAccName}) = Shuddh Profit <b class="text-emerald-600">${formatINR(totalProfit)}</b>!</div>
           `;
         }
+      } else if (entryType === 'qr_cash') {
+        const scanAmt = sale;
+        const feeAmt = cost;
+        const feeMode = document.querySelector('input[name="radioQrFeeMode"]:checked')?.value || 'qr_fee_included';
+
+        let cashGiven = 0;
+        if (feeMode === 'qr_fee_extra_cash') {
+          cashGiven = scanAmt;
+        } else {
+          cashGiven = Math.max(0, round2(scanAmt - feeAmt));
+        }
+
+        const qrCashEl = document.getElementById('qrCashGivenAmount');
+        if (qrCashEl) qrCashEl.textContent = formatINR(cashGiven);
+
+        const titleEl = document.getElementById('lblLiveCalcProfitTitle');
+        if (titleEl) {
+          titleEl.textContent = 'Is Kaam Par Shuddh Profit:';
+          titleEl.className = 'text-slate-500';
+        }
+        const profitEl = document.getElementById('liveCalcProfit');
+        if (profitEl) {
+          profitEl.textContent = formatINR(feeAmt);
+          profitEl.className = 'font-bold text-emerald-600 ml-1';
+        }
+        document.getElementById('liveCalcDue').textContent = '₹0';
+
+        const feeModeText = feeMode === 'qr_fee_included' ? 'QR me jud kar aaya' : (feeMode === 'qr_fee_extra_cash' ? 'Cash me alag se mila' : 'Cash se kaat ke diya');
+        explainBox.innerHTML = `
+          <div>• 1. Customer ne Dukan ke QR par scan kiya: <b>${portalAccName}</b> me <b>+${formatINR(scanAmt)} PLUS (+)</b> honge.</div>
+          <div>• 2. Customer ko Cash diya: <b>${depAccName}</b> se <b>-${formatINR(cashGiven)} MINUS (-)</b> honge (${feeModeText}).</div>
+          <div>• 3. Aapka Shuddh Profit: <b class="text-emerald-600">+${formatINR(feeAmt)} Profit</b> judega!</div>
+        `;
       } else if (entryType === 'qr_pay') {
         const qrSentAmt = sale;
         const customerFee = rec;
         const totalCashFromCust = round2(qrSentAmt + customerFee);
+                const titleEl = document.getElementById('lblLiveCalcProfitTitle');
+        if (titleEl) {
+          titleEl.textContent = 'Is Kaam Par Shuddh Profit:';
+          titleEl.className = 'text-slate-500';
+        }
+        const profitEl = document.getElementById('liveCalcProfit');
+        if (profitEl) profitEl.className = 'font-bold text-emerald-600 ml-1';
         document.getElementById('liveCalcProfit').textContent = formatINR(customerFee);
         document.getElementById('liveCalcDue').textContent = '₹0';
         explainBox.innerHTML = `
@@ -11057,6 +11180,13 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         const totalFromCustomer = round2(transferAmt + netCustFee);
         const netPortalDeduct = round2(transferAmt + portalExtraCharge - comm);
         const profit = round2(netCustFee - portalExtraCharge + comm);
+                const titleEl = document.getElementById('lblLiveCalcProfitTitle');
+        if (titleEl) {
+          titleEl.textContent = 'Is Kaam Par Shuddh Profit:';
+          titleEl.className = 'text-slate-500';
+        }
+        const profitEl = document.getElementById('liveCalcProfit');
+        if (profitEl) profitEl.className = 'font-bold text-emerald-600 ml-1';
         document.getElementById('liveCalcProfit').textContent = formatINR(profit);
         document.getElementById('liveCalcDue').textContent = '₹0';
         explainBox.innerHTML = `
@@ -11304,9 +11434,11 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       updateLiveModalCalculation();
     }
 
-    function applyServiceDefaultsToForm(srv) {
+    function applyServiceDefaultsToForm(srv, allowModeSwitch = false) {
       if (!srv) return;
-      if (srv.mode) setTxModalMode(srv.mode);
+      if (allowModeSwitch && srv.mode) {
+        setTxModalMode(srv.mode);
+      }
       // Keep txDescription blank as requested by user so they can write a custom note only if they want!
       const editId = document.getElementById('txEditId') ? document.getElementById('txEditId').value : '';
       if (!editId) {
@@ -11791,6 +11923,46 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       saveState();
     }
 
+    
+    // ==================== DMT CUSTOMER CONFIRMATION SMS / WHATSAPP ENGINE ====================
+    const DEFAULT_DMT_SMS_TEMPLATE = "PRIYA {CUSTOMER}, AAPKA RS {AMOUNT} KA DMT TRANSFER {BANK} (KHATA {ACCOUNT}) ME SAFALTA PURVAK HO GAYA HAI. REF/TX: {TX_ID}. DATE: {DATE}. DHANYAWAD - {SHOP_NAME}.";
+
+    function generateDmtSmsText(tx) {
+      let tpl = (appState && appState.smsTemplateDmt) ? appState.smsTemplateDmt : DEFAULT_DMT_SMS_TEMPLATE;
+      const custName = (tx.customerName || 'CUSTOMER').toUpperCase();
+      const amt = String(tx.saleAmount || tx.primaryAmount || 0);
+      const bank = (tx.customerBank || 'BANK').toUpperCase();
+      const acc = tx.beneficiaryAcc || tx.aadhaarNo || 'A/C';
+      const txId = tx.id || 'TX';
+      const date = tx.date || getLocalTodayStr();
+      const shop = (appState.officeName || 'EDIGITAL SOLUTIONS').toUpperCase();
+
+      return tpl
+        .replace(/{CUSTOMER}/g, custName)
+        .replace(/{AMOUNT}/g, amt)
+        .replace(/{BANK}/g, bank)
+        .replace(/{ACCOUNT}/g, acc)
+        .replace(/{TX_ID}/g, txId)
+        .replace(/{DATE}/g, date)
+        .replace(/{SHOP_NAME}/g, shop);
+    }
+
+    let activeSmsTx = null;
+    function openCustomerSmsModal(tx) {
+      activeSmsTx = tx;
+      const modal = document.getElementById('modalCustomerReceiptSms');
+      const phoneEl = document.getElementById('smsReceiptCustPhone');
+      const msgEl = document.getElementById('smsReceiptMessageText');
+
+      if (!modal || !phoneEl || !msgEl) return;
+
+      phoneEl.textContent = tx.customerPhone || 'Mobile Number Blank';
+      msgEl.value = generateDmtSmsText(tx);
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
     function switchTab(tabId) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
       const target = document.getElementById('tab-' + tabId);
@@ -11825,8 +11997,6 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       const txs = getFilteredTxList();
       const periodLabel = appState.activePeriod === 'today' ? `Aaj Ka Hisab (${getLocalTodayStr()})` : `Hisab Statement (${appState.activePeriod})`;
       const totalBal = appState.accounts.reduce((s, a) => s + (Number(a.balance) || 0), 0);
-      const portalsBal = appState.accounts.filter(a => a.type === 'portal').reduce((s, a) => s + (Number(a.balance) || 0), 0);
-      const cashBal = appState.accounts.filter(a => a.type === 'cash' || a.type === 'upi').reduce((s, a) => s + (Number(a.balance) || 0), 0);
       
       let totSale = 0, totCost = 0, totRec = 0, totDue = 0, totProfit = 0;
       txs.forEach(t => {
@@ -11837,219 +12007,167 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         totProfit += Number(t.profit) || 0;
       });
 
-      const printWin = window.open('', '_blank');
-      printWin.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Roznamcha Statement - ${escapeHtml(appState.officeName)}</title>
-          <style>
-            body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; color: #1e293b; }
-            .header { text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 15px; }
-            .header h1 { margin: 0; font-size: 22px; color: #1e3a8a; text-transform: uppercase; }
-            .header p { margin: 4px 0; font-size: 12px; color: #64748b; }
-            .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
-            .kpi { border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; background: #f8fafc; }
-            .kpi span { font-size: 11px; color: #64748b; display: block; text-transform: uppercase; }
-            .kpi b { font-size: 16px; color: #0f172a; }
-            table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
-            th { background: #1e3a8a; color: #ffffff; padding: 6px 8px; text-align: left; text-transform: uppercase; }
-            td { padding: 6px 8px; border-bottom: 1px solid #e2e8f0; }
-            tr:nth-child(even) { background: #f8fafc; }
-            .text-right { text-align: right; }
-            .font-bold { font-weight: bold; }
-            .footer { margin-top: 25px; border-top: 1px solid #cbd5e1; padding-top: 10px; font-size: 11px; display: flex; justify-content: space-between; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>${escapeHtml(appState.officeName)}</h1>
-            <p>${escapeHtml(appState.officeSub)}</p>
-            <p><b>Statement:</b> ${periodLabel} | <b>Printed At:</b> ${new Date().toLocaleString('en-IN')}</p>
+      const container = document.getElementById('printContainer');
+      container.innerHTML = `
+        <div style="font-family:'Segoe UI',Arial,sans-serif;padding:20px;color:#0f172a;background:#ffffff">
+          <div style="text-align:center;border-bottom:2px solid #1e3a8a;padding-bottom:10px;margin-bottom:15px">
+            <h1 style="margin:0;font-size:22px;color:#1e3a8a;text-transform:uppercase">${escapeHtml(appState.officeName)}</h1>
+            <p style="margin:4px 0;font-size:12px;color:#64748b">${escapeHtml(appState.officeSub)}</p>
+            <p style="margin:2px 0;font-size:12px"><b>Statement:</b> ${periodLabel} | <b>Printed:</b> ${new Date().toLocaleString('en-IN')}</p>
           </div>
 
-          <div class="summary-grid">
-            <div class="kpi"><span>Kul Available Balance</span><b>${formatINR(totalBal)}</b></div>
-            <div class="kpi"><span>Shuddh Munafa (Net Profit)</span><b style="color:#059669">${formatINR(totProfit)}</b></div>
-            <div class="kpi"><span>Kul Volume (Aawak)</span><b>${formatINR(totSale)}</b></div>
-            <div class="kpi"><span>Customer Udhaar Baki</span><b style="color:#e11d48">${formatINR(totDue)}</b></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px">
+            <div style="border:1px solid #cbd5e1;border-radius:8px;padding:8px;background:#f8fafc">
+              <span style="font-size:10px;color:#64748b;display:block">KUL AVAILABLE BALANCE</span>
+              <b style="font-size:15px">${formatINR(totalBal)}</b>
+            </div>
+            <div style="border:1px solid #cbd5e1;border-radius:8px;padding:8px;background:#f8fafc">
+              <span style="font-size:10px;color:#64748b;display:block">SHUDDH MUNAFA (PROFIT)</span>
+              <b style="font-size:15px;color:#059669">${formatINR(totProfit)}</b>
+            </div>
+            <div style="border:1px solid #cbd5e1;border-radius:8px;padding:8px;background:#f8fafc">
+              <span style="font-size:10px;color:#64748b;display:block">KUL VOLUME (AAWAK)</span>
+              <b style="font-size:15px">${formatINR(totSale)}</b>
+            </div>
+            <div style="border:1px solid #cbd5e1;border-radius:8px;padding:8px;background:#f8fafc">
+              <span style="font-size:10px;color:#64748b;display:block">CUSTOMER BAKI (UDHAAR)</span>
+              <b style="font-size:15px;color:#e11d48">${formatINR(totDue)}</b>
+            </div>
           </div>
 
-          <table>
+          <table style="width:100%;border-collapse:collapse;font-size:11px">
             <thead>
-              <tr>
-                <th>Date / ID</th>
-                <th>Customer / Mobile</th>
-                <th>Service / Note</th>
-                <th>Account</th>
-                <th class="text-right">Amount</th>
-                <th class="text-right">Cost/Exp</th>
-                <th class="text-right">Recv</th>
-                <th class="text-right">Due</th>
-                <th class="text-right">Profit</th>
+              <tr style="background:#1e3a8a;color:#ffffff">
+                <th style="padding:6px;text-align:left">DATE / ID</th>
+                <th style="padding:6px;text-align:left">CUSTOMER / MOBILE</th>
+                <th style="padding:6px;text-align:left">SERVICE / NOTE</th>
+                <th style="padding:6px;text-align:left">ACCOUNT</th>
+                <th style="padding:6px;text-align:right">AMOUNT</th>
+                <th style="padding:6px;text-align:right">COST/EXP</th>
+                <th style="padding:6px;text-align:right">RECV</th>
+                <th style="padding:6px;text-align:right">DUE</th>
+                <th style="padding:6px;text-align:right">PROFIT</th>
               </tr>
             </thead>
             <tbody>
               ${txs.map(t => `
-                <tr>
-                  <td><b>${t.date}</b><br><small style="color:#64748b">${t.id}</small></td>
-                  <td><b>${escapeHtml(t.customerName || '—')}</b><br><small>${t.customerPhone || ''}</small></td>
-                  <td>${escapeHtml(t.description || '')}</td>
-                  <td>${escapeHtml(getAccountName(t.depositAccountId))}${t.costAccountId ? '<br><small>From: ' + escapeHtml(getAccountName(t.costAccountId)) + '</small>' : ''}</td>
-                  <td class="text-right">${t.saleAmount > 0 ? formatINR(t.saleAmount) : '—'}</td>
-                  <td class="text-right" style="color:#e11d48">${t.costAmount > 0 ? formatINR(t.costAmount) : '₹0'}</td>
-                  <td class="text-right" style="color:#059669">${t.receivedAmount > 0 ? formatINR(t.receivedAmount) : '—'}</td>
-                  <td class="text-right" style="${t.dueAmount > 0 ? 'color:#e11d48;font-weight:bold' : ''}">${t.dueAmount > 0 ? formatINR(t.dueAmount) : '₹0'}</td>
-                  <td class="text-right" style="font-weight:bold;color:${t.profit >= 0 ? '#059669' : '#e11d48'}">${formatINR(t.profit)}</td>
+                <tr style="border-bottom:1px solid #e2e8f0">
+                  <td style="padding:5px"><b>${t.date}</b><br><small style="color:#64748b">${t.id}</small></td>
+                  <td style="padding:5px"><b>${escapeHtml(t.customerName || '—')}</b><br><small>${t.customerPhone || ''}</small></td>
+                  <td style="padding:5px">${escapeHtml(t.description || '')}</td>
+                  <td style="padding:5px">${escapeHtml(getAccountName(t.depositAccountId))}${t.costAccountId ? '<br><small>From: ' + escapeHtml(getAccountName(t.costAccountId)) + '</small>' : ''}</td>
+                  <td style="padding:5px;text-align:right">${t.saleAmount > 0 ? formatINR(t.saleAmount) : '—'}</td>
+                  <td style="padding:5px;text-align:right;color:#e11d48">${t.costAmount > 0 ? formatINR(t.costAmount) : '₹0'}</td>
+                  <td style="padding:5px;text-align:right;color:#059669">${t.receivedAmount > 0 ? formatINR(t.receivedAmount) : '—'}</td>
+                  <td style="padding:5px;text-align:right;font-weight:bold;color:${t.dueAmount > 0 ? '#e11d48' : '#64748b'}">${t.dueAmount > 0 ? formatINR(t.dueAmount) : '₹0'}</td>
+                  <td style="padding:5px;text-align:right;font-weight:bold;color:${t.profit >= 0 ? '#059669' : '#e11d48'}">${formatINR(t.profit)}</td>
                 </tr>
               `).join('')}
-              <tr style="background:#e2e8f0;font-weight:bold">
-                <td colspan="4">TOTAL (${txs.length} Entries)</td>
-                <td class="text-right">${formatINR(totSale)}</td>
-                <td class="text-right" style="color:#e11d48">${formatINR(totCost)}</td>
-                <td class="text-right" style="color:#059669">${formatINR(totRec)}</td>
-                <td class="text-right" style="color:#e11d48">${formatINR(totDue)}</td>
-                <td class="text-right" style="color:#059669">${formatINR(totProfit)}</td>
+              <tr style="background:#e2e8f0;font-weight:bold;border-top:2px solid #64748b">
+                <td colspan="4" style="padding:6px">TOTAL (${txs.length} Entries)</td>
+                <td style="padding:6px;text-align:right">${formatINR(totSale)}</td>
+                <td style="padding:6px;text-align:right;color:#e11d48">${formatINR(totCost)}</td>
+                <td style="padding:6px;text-align:right;color:#059669">${formatINR(totRec)}</td>
+                <td style="padding:6px;text-align:right;color:#e11d48">${formatINR(totDue)}</td>
+                <td style="padding:6px;text-align:right;color:#059669">${formatINR(totProfit)}</td>
               </tr>
             </tbody>
           </table>
 
-          <div class="footer">
+          <div style="margin-top:25px;border-top:1px solid #cbd5e1;padding-top:10px;font-size:11px;display:flex;justify-content:space-between">
             <span>Prepared by: ${escapeHtml(appState.authUserId || 'Admin')}</span>
             <span>eDigital Solutions v20 Pro Smart Kiosk</span>
             <span>Authorized Signature: __________________</span>
           </div>
-        </body>
-        </html>
-      `);
-      printWin.document.close();
-      printWin.focus();
-      setTimeout(() => { printWin.print(); }, 400);
+        </div>
+      `;
+      window.print();
     }
 
     function printUdhaarReport() {
       const udhaarTxs = (appState.transactions || []).filter(t => (Number(t.dueAmount) || 0) > 0);
       const totDue = udhaarTxs.reduce((s, t) => s + (Number(t.dueAmount) || 0), 0);
 
-      const printWin = window.open('', '_blank');
-      printWin.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Customer Udhaar Statement - ${escapeHtml(appState.officeName)}</title>
-          <style>
-            body { font-family: 'Segoe UI', Arial, sans-serif; margin: 25px; color: #0f172a; }
-            .header { text-align: center; border-bottom: 2px solid #e11d48; padding-bottom: 10px; margin-bottom: 15px; }
-            h1 { margin: 0; color: #e11d48; text-transform: uppercase; font-size: 20px; }
-            table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 15px; }
-            th { background: #e11d48; color: #ffffff; padding: 8px; text-align: left; }
-            td { padding: 8px; border-bottom: 1px solid #e2e8f0; }
-            tr:nth-child(even) { background: #fff1f2; }
-            .text-right { text-align: right; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>${escapeHtml(appState.officeName)} — Customer Udhaar / Baki Statement</h1>
-            <p>Kul Baki Amount: <b style="font-size:16px;color:#e11d48">${formatINR(totDue)}</b> | As on: ${new Date().toLocaleDateString('en-IN')}</p>
+      const container = document.getElementById('printContainer');
+      container.innerHTML = `
+        <div style="font-family:'Segoe UI',Arial,sans-serif;padding:25px;color:#0f172a;background:#ffffff">
+          <div style="text-align:center;border-bottom:2px solid #e11d48;padding-bottom:10px;margin-bottom:15px">
+            <h1 style="margin:0;color:#e11d48;text-transform:uppercase;font-size:20px">${escapeHtml(appState.officeName)} — Customer Udhaar / Baki Statement</h1>
+            <p style="margin:4px 0">Kul Baki Amount: <b style="font-size:16px;color:#e11d48">${formatINR(totDue)}</b> | As on: ${new Date().toLocaleDateString('en-IN')}</p>
           </div>
-          <table>
+          <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:15px">
             <thead>
-              <tr>
-                <th>Lenden Date</th>
-                <th>Customer Ka Naam</th>
-                <th>Mobile Number</th>
-                <th>Service / Note</th>
-                <th class="text-right">Kul Bill</th>
-                <th class="text-right">Diya Hua</th>
-                <th class="text-right">Baki Amount</th>
+              <tr style="background:#e11d48;color:#ffffff">
+                <th style="padding:8px;text-align:left">Lenden Date</th>
+                <th style="padding:8px;text-align:left">Customer Ka Naam</th>
+                <th style="padding:8px;text-align:left">Mobile Number</th>
+                <th style="padding:8px;text-align:left">Service / Note</th>
+                <th style="padding:8px;text-align:right">Kul Bill</th>
+                <th style="padding:8px;text-align:right">Diya Hua</th>
+                <th style="padding:8px;text-align:right">Baki Amount</th>
               </tr>
             </thead>
             <tbody>
               ${udhaarTxs.map(t => `
-                <tr>
-                  <td>${t.date}</td>
-                  <td><b>${escapeHtml(t.customerName || '—')}</b></td>
-                  <td><b>${t.customerPhone || '—'}</b></td>
-                  <td>${escapeHtml(t.description || '')}</td>
-                  <td class="text-right">${formatINR(t.saleAmount)}</td>
-                  <td class="text-right">${formatINR(t.receivedAmount)}</td>
-                  <td class="text-right" style="font-weight:bold;color:#e11d48">${formatINR(t.dueAmount)}</td>
+                <tr style="border-bottom:1px solid #e2e8f0">
+                  <td style="padding:8px">${t.date}</td>
+                  <td style="padding:8px"><b>${escapeHtml(t.customerName || '—')}</b></td>
+                  <td style="padding:8px"><b>${t.customerPhone || '—'}</b></td>
+                  <td style="padding:8px">${escapeHtml(t.description || '')}</td>
+                  <td style="padding:8px;text-align:right">${formatINR(t.saleAmount)}</td>
+                  <td style="padding:8px;text-align:right">${formatINR(t.receivedAmount)}</td>
+                  <td style="padding:8px;text-align:right;font-weight:bold;color:#e11d48">${formatINR(t.dueAmount)}</td>
                 </tr>
               `).join('')}
               <tr style="background:#fecdd3;font-weight:bold">
-                <td colspan="6">KUL BAKI HISAB (${udhaarTxs.length} Customers)</td>
-                <td class="text-right" style="color:#e11d48">${formatINR(totDue)}</td>
+                <td colspan="6" style="padding:8px">KUL BAKI HISAB (${udhaarTxs.length} Customers)</td>
+                <td style="padding:8px;text-align:right;color:#e11d48">${formatINR(totDue)}</td>
               </tr>
             </tbody>
           </table>
-        </body>
-        </html>
-      `);
-      printWin.document.close();
-      printWin.focus();
-      setTimeout(() => { printWin.print(); }, 400);
+        </div>
+      `;
+      window.print();
     }
 
     function printBalanceSheetReport() {
       const accounts = appState.accounts || [];
       const totalBal = accounts.reduce((s, a) => s + (Number(a.balance) || 0), 0);
-      const portalsBal = accounts.filter(a => a.type === 'portal').reduce((s, a) => s + (Number(a.balance) || 0), 0);
-      const banksBal = accounts.filter(a => a.type === 'bank').reduce((s, a) => s + (Number(a.balance) || 0), 0);
-      const cashBal = accounts.filter(a => a.type === 'cash' || a.type === 'upi').reduce((s, a) => s + (Number(a.balance) || 0), 0);
 
-      const printWin = window.open('', '_blank');
-      printWin.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Bank & Portals Balance Sheet - ${escapeHtml(appState.officeName)}</title>
-          <style>
-            body { font-family: 'Segoe UI', Arial, sans-serif; margin: 25px; color: #0f172a; }
-            .header { text-align: center; border-bottom: 2px solid #0284c7; padding-bottom: 10px; margin-bottom: 15px; }
-            h1 { margin: 0; color: #0284c7; text-transform: uppercase; font-size: 20px; }
-            table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 15px; }
-            th { background: #0284c7; color: #ffffff; padding: 8px; text-align: left; }
-            td { padding: 8px; border-bottom: 1px solid #e2e8f0; }
-            tr:nth-child(even) { background: #f0f9ff; }
-            .text-right { text-align: right; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>${escapeHtml(appState.officeName)} — Bank & Portals Balance Sheet</h1>
-            <p>Kul Available Balance: <b style="font-size:16px;color:#0369a1">${formatINR(totalBal)}</b> | Date: ${new Date().toLocaleDateString('en-IN')}</p>
+      const container = document.getElementById('printContainer');
+      container.innerHTML = `
+        <div style="font-family:'Segoe UI',Arial,sans-serif;padding:25px;color:#0f172a;background:#ffffff">
+          <div style="text-align:center;border-bottom:2px solid #0284c7;padding-bottom:10px;margin-bottom:15px">
+            <h1 style="margin:0;color:#0284c7;text-transform:uppercase;font-size:20px">${escapeHtml(appState.officeName)} — Bank & Portals Balance Sheet</h1>
+            <p style="margin:4px 0">Kul Available Balance: <b style="font-size:16px;color:#0369a1">${formatINR(totalBal)}</b> | Date: ${new Date().toLocaleDateString('en-IN')}</p>
           </div>
-          <table>
+          <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:15px">
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Account / Portal Naam</th>
-                <th>Category</th>
-                <th class="text-right">Live Closing Balance</th>
+              <tr style="background:#0284c7;color:#ffffff">
+                <th style="padding:8px;text-align:left">#</th>
+                <th style="padding:8px;text-align:left">Account / Portal Naam</th>
+                <th style="padding:8px;text-align:left">Category</th>
+                <th style="padding:8px;text-align:right">Live Closing Balance</th>
               </tr>
             </thead>
             <tbody>
               ${accounts.map((a, i) => `
-                <tr>
-                  <td>${i + 1}</td>
-                  <td><b>${escapeHtml(a.name)}</b></td>
-                  <td style="text-transform:uppercase;color:#64748b">${a.type}</td>
-                  <td class="text-right" style="font-weight:bold;color:${Number(a.balance) < 0 ? '#e11d48' : '#0369a1'}">${formatINR(a.balance)}</td>
+                <tr style="border-bottom:1px solid #e2e8f0">
+                  <td style="padding:8px">${i + 1}</td>
+                  <td style="padding:8px"><b>${escapeHtml(a.name)}</b></td>
+                  <td style="padding:8px;text-transform:uppercase;color:#64748b">${a.type}</td>
+                  <td style="padding:8px;text-align:right;font-weight:bold;color:${Number(a.balance) < 0 ? '#e11d48' : '#0369a1'}">${formatINR(a.balance)}</td>
                 </tr>
               `).join('')}
               <tr style="background:#bae6fd;font-weight:bold">
-                <td colspan="3">KUL AVAILABLE LIQUIDITY</td>
-                <td class="text-right" style="color:#0369a1;font-size:14px">${formatINR(totalBal)}</td>
+                <td colspan="3" style="padding:8px">KUL AVAILABLE LIQUIDITY</td>
+                <td style="padding:8px;text-align:right;color:#0369a1;font-size:14px">${formatINR(totalBal)}</td>
               </tr>
             </tbody>
           </table>
-        </body>
-        </html>
-      `);
-      printWin.document.close();
-      printWin.focus();
-      setTimeout(() => { printWin.print(); }, 400);
+        </div>
+      `;
+      window.print();
     }
 
     function copyWhatsAppSummary() {
@@ -12094,30 +12212,55 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
 
     function exportCSV() {
       const headers = ['ID', 'Date', 'Type', 'Customer', 'Phone', 'Description', 'SaleBill', 'Cost', 'Received', 'Due', 'NetProfit'];
-      const rows = appState.transactions.map(t => [
-        t.id,
-        t.date,
-        t.type,
-        `"${(t.customerName || '').replace(/"/g, '""')}"`,
-        t.customerPhone || '',
-        `"${(t.description || '').replace(/"/g, '""')}"`,
-        t.saleAmount || 0,
-        t.costAmount || 0,
-        t.receivedAmount || 0,
-        t.dueAmount || 0,
-        t.profit || 0
-      ]);
-      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      let totSale = 0, totCost = 0, totRec = 0, totDue = 0, totProfit = 0;
+
+      const txList = getFilteredTxList ? getFilteredTxList() : (appState.transactions || []);
+      const rows = txList.map(t => {
+        const s = Number(t.saleAmount) || 0;
+        const c = Number(t.costAmount) || 0;
+        const r = Number(t.receivedAmount) || 0;
+        const d = Number(t.dueAmount) || 0;
+        const p = Number(t.profit) || 0;
+        totSale += s; totCost += c; totRec += r; totDue += d; totProfit += p;
+
+        return [
+          t.id,
+          t.date,
+          t.type,
+          `"${(t.customerName || '').replace(/"/g, '""')}"`,
+          t.customerPhone || '',
+          `"${(t.description || '').replace(/"/g, '""')}"`,
+          s, c, r, d, p
+        ];
+      });
+
+      // Total Row at the bottom of the Excel sheet
+      const totalRow = [
+        'TOTAL',
+        `(${rows.length} Entries)`,
+        '',
+        '',
+        '',
+        'KUL YOG TOTAL',
+        totSale,
+        totCost,
+        totRec,
+        totDue,
+        totProfit
+      ];
+
+      const csv = [headers.join(','), ...rows.map(r => r.join(',')), totalRow.join(',')].join('\n');
+      // \uFEFF is UTF-8 Byte Order Mark so Excel opens rupee and text cleanly without â,¹
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Office_Hisab_${TODAY_STR}.csv`;
+      a.download = `Office_Hisab_${getLocalTodayStr ? getLocalTodayStr() : 'Export'}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast('Excel/CSV Hisab file download ho gayi!');
+      showToast('✅ Excel Sheet download ho gayi! Niche Total Row aur sahi numbers jud kar aaye hain.');
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -12316,11 +12459,12 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       // When Portal dropdown changes inside Modal, strictly filter services to ONLY that portal!
       document.getElementById('txCostAccountId').addEventListener('change', (e) => {
         const chosenPortalId = e.target.value;
-        filterModalServicesByPortal(chosenPortalId);
+        const currentMode = document.getElementById('txEntryType').value;
+        filterModalServicesByPortal(chosenPortalId, currentMode);
         const firstSrvId = document.getElementById('txServiceId').value;
         const srv = appState.services.find(s => s.id === firstSrvId);
         if (srv) {
-          applyServiceDefaultsToForm(srv);
+          applyServiceDefaultsToForm(srv, false); // false = Never jump to another mode!
         } else {
           updateLiveModalCalculation();
         }
@@ -12329,7 +12473,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       document.getElementById('txServiceId').addEventListener('change', (e) => {
         const srv = appState.services.find(s => s.id === e.target.value);
         if (srv) {
-          applyServiceDefaultsToForm(srv);
+          applyServiceDefaultsToForm(srv, false); // false = Never jump to another mode!
         }
       });
 
@@ -12760,6 +12904,13 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         closeTxModal();
         renderAll();
         showToast(existingIdx !== -1 ? `✅ Entry #${newTxId} update ho gayi aur sabhi Balances & Profit adjust ho gaye!` : '✅ Entry save ho gayi! Portal, Cash/QR aur Profit apne aap update ho gaya.');
+
+        // If Money Transfer (DMT) or AEPS, open SMS modal if customer phone exists
+        if ((type === 'money_transfer' || type === 'aeps_withdrawal') && customerPhone && customerPhone.length === 10) {
+          setTimeout(() => {
+            openCustomerSmsModal(updatedTxObj);
+          }, 350);
+        }
       });
 
       // Inquiry Modal
@@ -13283,6 +13434,68 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       document.getElementById('inquiryStatusFilter').addEventListener('change', renderInquiriesTab);
       document.getElementById('taskStatusFilter').addEventListener('change', renderTasksTab);
       document.getElementById('btnExportCSV').addEventListener('click', exportCSV);
+
+      // Customer DMT SMS Modal Listeners
+      const modalSms = document.getElementById('modalCustomerReceiptSms');
+      const btnCloseSms = document.getElementById('btnCloseSmsReceiptModal');
+      if (btnCloseSms && modalSms) {
+        btnCloseSms.addEventListener('click', () => {
+          modalSms.classList.add('hidden');
+          modalSms.classList.remove('flex');
+        });
+      }
+
+      document.getElementById('btnSendWhatsappMsg')?.addEventListener('click', () => {
+        const phone = (activeSmsTx && activeSmsTx.customerPhone ? activeSmsTx.customerPhone : '').replace(/\D/g, '');
+        const msg = document.getElementById('smsReceiptMessageText').value;
+        if (!phone || phone.length !== 10) {
+          showToast('⚠️ Customer ka 10-digit mobile number nahi hai!');
+          return;
+        }
+        window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+      });
+
+      document.getElementById('btnSendMobileSms')?.addEventListener('click', () => {
+        const phone = (activeSmsTx && activeSmsTx.customerPhone ? activeSmsTx.customerPhone : '').replace(/\D/g, '');
+        const msg = document.getElementById('smsReceiptMessageText').value;
+        if (!phone || phone.length !== 10) {
+          showToast('⚠️ Customer ka 10-digit mobile number nahi hai!');
+          return;
+        }
+        window.location.href = `sms:${phone}?body=${encodeURIComponent(msg)}`;
+      });
+
+      document.getElementById('btnCopySmsText')?.addEventListener('click', () => {
+        const msg = document.getElementById('smsReceiptMessageText').value;
+        navigator.clipboard.writeText(msg).then(() => {
+          showToast('📋 Message copy ho gaya!');
+        });
+      });
+
+      document.getElementById('btnEditSmsTemplate')?.addEventListener('click', () => {
+        const box = document.getElementById('smsTemplateEditBox');
+        if (box) {
+          box.classList.toggle('hidden');
+          const input = document.getElementById('inputCustomSmsTemplate');
+          if (input) {
+            input.value = (appState && appState.smsTemplateDmt) ? appState.smsTemplateDmt : DEFAULT_DMT_SMS_TEMPLATE;
+          }
+        }
+      });
+
+      document.getElementById('btnSaveCustomSmsTemplate')?.addEventListener('click', () => {
+        const input = document.getElementById('inputCustomSmsTemplate');
+        if (input && input.value.trim()) {
+          appState.smsTemplateDmt = input.value.trim().toUpperCase();
+          saveState();
+          if (activeSmsTx) {
+            document.getElementById('smsReceiptMessageText').value = generateDmtSmsText(activeSmsTx);
+          }
+          document.getElementById('smsTemplateEditBox').classList.add('hidden');
+          showToast('✅ Naya DMT Message Template Save Ho Gaya!');
+        }
+      });
+
 
       // Report Hub Modal Listeners
       const btnOpenRep = document.getElementById('btnOpenReportHub');
@@ -14199,6 +14412,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
       if (appState.cloudSyncUrl) { pullStateFromCloud(true); }
     });
   </script>
+<div id="printContainer" class="hidden"></div>
 </body></html/* ==================== 4 COMPLETE & VISUALLY DISTINCT THEMES ==================== */
 
     /* THEME 1: Cyber Dark Fintech (Night Pro Kiosk) */
