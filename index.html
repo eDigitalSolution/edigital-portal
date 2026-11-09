@@ -1179,6 +1179,7 @@
 <!-- ==================== TAB 2: DAILY LENDEN (ROZNAMCHA) ==================== -->
 <section class="tab-panel hidden space-y-4" id="tab-lenden">
   <!-- LIVE SERVICE-WISE PERFORMANCE STRIP (Aaj Kisme Kya Hua & Kitna Hua) -->
+  <div id="lendenNoEntriesBanner" class="hidden mb-3"></div>
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5" id="lendenServiceSummaryGrid">
     <!-- 1. DMT -->
     <div class="lenden-srv-kpi p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/80 cursor-pointer hover:shadow-md transition" data-filter-type="money_transfer" title="Click: Sirf Money Transfer Dekhein">
@@ -9750,6 +9751,30 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
 
       renderExpensesTab();
 
+      const noEntriesNotice = document.getElementById('lendenNoEntriesBanner');
+      if (noEntriesNotice) {
+        if (filteredTx.length === 0) {
+          noEntriesNotice.classList.remove('hidden');
+          noEntriesNotice.innerHTML = `
+            <div class="p-3.5 bg-indigo-50 border border-indigo-200 rounded-2xl flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-indigo-200 text-indigo-800 flex items-center justify-center font-bold">ℹ️</span>
+                <div>
+                  <b class="text-indigo-950 font-bold">${periodLabels[appState.activePeriod]} me abhi koi entry nahi hai.</b>
+                  <span class="text-slate-600 block">Kal (08 Nov) tak ki entries dekhne ke liye upar <b>'Pichle 7 Din'</b> ya <b>'Kul Sabhi'</b> par click karein.</span>
+                </div>
+              </div>
+              <button type="button" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs shadow-xs" onclick="document.querySelector('[data-period=\'7days\']').click()">
+                📅 Pichle 7 Din Ka Hisab Kholein
+              </button>
+            </div>
+          `;
+        } else {
+          noEntriesNotice.classList.add('hidden');
+        }
+      }
+
+
       document.getElementById('kpiTotalRevenue').textContent = formatINR(totalRevenue);
       document.getElementById('kpiTotalOutflow').textContent = formatINR(totalCostAndExpense);
       document.getElementById('kpiActiveInquiries').textContent = String(activeInquiries);
@@ -11756,7 +11781,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         document.getElementById('lblPortalAccount').textContent = '1. Paytm Me Jude Kis Bank A/c Se Kata? *';
       } else if (mode === 'money_transfer') {
         btnDmt.className = 'py-2 px-2 rounded-lg text-[11px] font-bold bg-blue-600 text-white shadow-xs';
-        srvWrap.classList.remove('hidden');
+        srvWrap.classList.add('hidden');
         recWrap.classList.remove('hidden');
         costWrap.classList.remove('hidden');
         costAccWrap.classList.remove('hidden');
@@ -11774,7 +11799,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         document.getElementById('lblPortalAccount').textContent = '1. Kis Portal / Bank A/c Se DMT Kiya? *';
       } else if (mode === 'light_bill') {
         btnLight.className = 'py-2 px-2 rounded-lg text-[11px] font-bold bg-amber-600 text-white shadow-xs';
-        srvWrap.classList.remove('hidden');
+        srvWrap.classList.add('hidden');
         recWrap.classList.remove('hidden');
         costWrap.classList.add('hidden');
         costAccWrap.classList.remove('hidden');
@@ -12367,6 +12392,36 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
     let currentStatementHtml = '';
     let currentStatementTitle = '';
 
+    
+    function safeCopyToClipboard(textToCopy, successMsg = 'Text copy ho gaya!') {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          showToast('📋 ' + successMsg);
+        }).catch(() => {
+          fallbackCopyText(textToCopy, successMsg);
+        });
+      } else {
+        fallbackCopyText(textToCopy, successMsg);
+      }
+    }
+
+    function fallbackCopyText(textToCopy, successMsg) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = textToCopy;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('📋 ' + successMsg);
+      } catch (e) {
+        showToast('📋 Text copy karein: ' + textToCopy.slice(0, 40) + '...');
+      }
+    }
+
     function openStatementPreview(title, htmlContent) {
       currentStatementTitle = title;
       currentStatementHtml = htmlContent;
@@ -12608,7 +12663,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
         `----------------------------------------\n` +
         `*eDigital Solutions v20 Pro Cloud Kiosk*`;
 
-      navigator.clipboard.writeText(text.replace(/\\n/g, '\n')).then(() => {
+      safeCopyToClipboard(text.replace(/\\n/g, '\n'), 'WhatsApp Summary Copy Ho Gayi! Ab WhatsApp par jakar Paste karein.'); return; navigator.clipboard.writeText('').then(() => {
         showToast('📋 WhatsApp Summary Copy Ho Gayi! Ab WhatsApp par jakar Paste (Ctrl+V) karein.');
       }).catch(() => {
         showToast('📋 Text ready! Manual copy kar lein.');
@@ -13856,7 +13911,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
 
       document.getElementById('btnStatementCopyText')?.addEventListener('click', () => {
         const content = document.getElementById('statementPreviewContent')?.innerText || '';
-        navigator.clipboard.writeText(content).then(() => {
+        safeCopyToClipboard(content, 'Statement text copy ho gaya!'); return; navigator.clipboard.writeText('').then(() => {
           showToast('📋 Statement Text copy ho gaya!');
         });
       });
@@ -13952,7 +14007,7 @@ function doPost(e){var p=PropertiesService.getScriptProperties(),s=e.postData.co
 
       document.getElementById('btnCopySmsText')?.addEventListener('click', () => {
         const msg = document.getElementById('smsReceiptMessageText').value;
-        navigator.clipboard.writeText(msg).then(() => {
+        safeCopyToClipboard(msg, 'Message copy ho gaya!'); return; navigator.clipboard.writeText('').then(() => {
           showToast('📋 Message copy ho gaya!');
         });
       });
